@@ -33,6 +33,7 @@
 #include "Types.h"
 #include "BusCtrl.h"
 
+#include "Printf.h"
 
 //	------------------------------------
 //			Macro Definitions
@@ -60,27 +61,72 @@
 //	
 //	
 //	
+
+void PCT_PageChange(U8 _pg)
+{
+	U8 _dvc = 0;			//... temporal
+	U8 _addr=0xFF;
+
+	EA = OFF;		// Disable All Interrupt
+	//... P[7:4]:INT[5:2], P1_3:HALE, P1_2:HRDB, P1_1:HWRB, P1_0:HSPB
+	MCTRL = 0xf6;		//... initial state
+	//if(_pg == DVC_PG0){	HCSB1=0;	HCSB0=0;}
+	//else if(_pg == DVC_PG1){	HCSB1=0;	HCSB0=1;}
+	//else if(_pg == DVC_PG2){	HCSB1=1;	HCSB0=0;}
+	HCSB0=0;///1;
+	HCSB1=0;///1;
+
+	MDATA =	_addr;
+	HALE = 1;	
+	HALE = 0;
+	MDATA =	_pg;
+	HWRB = 0;				
+	HWRB = 1;
+
+	MCTRL = 0xf6;		//... initial state
+	HCSB0=0;///1
+	HCSB1=0;///1;
+	MDATA =	0xff;
+	EA = ON;		// Enable All Interrupt
+}
+
 void PCT_WriteAsicByte(U8 _dvc, U8 _pg, U8 _addr, U8 _wdat)
 {
 	_dvc = 0;			//... temporal
 
 	EA = OFF;		// Disable All Interrupt
 	//... P[7:4]:INT[5:2], P1_3:HALE, P1_2:HRDB, P1_1:HWRB, P1_0:HSPB
+
+	#if (TW2837==ON)
+	PCT_PageChange(_pg);
+	#endif
+
 	MCTRL = 0xf6;		//... initial state
+#if (TW2837==ON) 
+		HCSB0=0;///1;
+		HCSB1=0;///1;
+	
+#else
 
 	if(_pg == DVC_PG0){	HCSB1=0;	HCSB0=0;}
 	else if(_pg == DVC_PG1){	HCSB1=0;	HCSB0=1;}
 	else if(_pg == DVC_PG2){	HCSB1=1;	HCSB0=0;}
+#endif	
 	MDATA =	_addr;
-	HALE = 1;
+	HALE = 1;	
 	HALE = 0;
 	MDATA =	_wdat;
-	HWRB = 0;
+	HWRB = 0;				
 	HWRB = 1;
 
 	MCTRL = 0xf6;		//... initial state
+#if (TW2837==ON) 
+	HCSB0=0;///1;
+	HCSB1=0;///1;
+#else	
 	HCSB0=1;
 	HCSB1=1;
+#endif	
 	MDATA =	0xff;
 	EA = ON;		// Enable All Interrupt
 }
@@ -89,6 +135,86 @@ void PCT_WriteAsicByte(U8 _dvc, U8 _pg, U8 _addr, U8 _wdat)
 //	
 //	
 //	
+#if 1
+#define BDelay   1
+#define Delay_val 0
+
+extern U16 _delay;
+
+void PCT_WriteAsicTable(U8 _dvc, U8 _pg, U8 _addr, U8 *_tbl_ptr, U8 _tbl_cnt)
+{
+	_dvc = 0;			//... temporal
+
+	EA = OFF;		// Disable All Interrupt
+	//... P[7:4]:INT[5:2], P1_3:HALE, P1_2:HRDB, P1_1:HWRB, P1_0:HSPB
+	//MCTRL_set();///MCTRL = 0xf6;		//... initial state
+
+	#if (TW2837==ON)
+	PCT_PageChange(_pg);
+	#endif
+	
+#ifdef NED
+    MCTRL_set();
+#else
+    MCTRL = 0xf6;		//... initial state
+#endif
+
+#if (TW2837==ON) 
+		HCSB0=0;///1;
+		HCSB1=0;///1;
+	
+#else
+
+	if(_pg == DVC_PG0){	HCSB1=0;	HCSB0=0;}
+	else if(_pg == DVC_PG1){	HCSB1=0;	HCSB0=1;}
+	else if(_pg == DVC_PG2){	HCSB1=1;	HCSB0=0;}
+#endif	
+				#ifdef BDelay
+							//Wait_ms(Delay_val);//ryan..
+							DELAY_FOR(Delay_val); 
+                        #endif
+
+	do {
+		MDATA =	_addr++;
+		
+		HALE = 1;
+                                #ifdef BDelay
+                        //Wait_ms(Delay_val);//ryan..
+                        DELAY_FOR(Delay_val); 
+                        #endif
+
+		HALE = 0;
+	
+		MDATA =	*_tbl_ptr++;
+		HWRB = 0;
+                                #ifdef BDelay
+                        //Wait_ms(Delay_val);//ryan..
+                        DELAY_FOR(Delay_val); 
+                        #endif
+
+		HWRB = 1;
+	}while( --_tbl_cnt!=0 );
+
+//	MCTRL_set();///MCTRL = 0xf6;		//... initial state
+#ifdef NED
+    MCTRL_set();
+#else
+    MCTRL = 0xf6;		//... initial state
+#endif
+#if (TW2837==ON) 
+	HCSB0=0;///1;
+	HCSB1=0;///1;
+#else	
+	HCSB0=1;
+	HCSB1=1;
+#endif	
+	MDATA =	0xff;
+
+	EA = ON;		// Enable All Interrupt
+}
+
+
+#else
 void PCT_WriteAsicTable(U8 _dvc, U8 _pg, U8 _addr, U8 *_tbl_ptr, U8 _tbl_cnt)
 {
 	_dvc = 0;			//... temporal
@@ -117,7 +243,7 @@ void PCT_WriteAsicTable(U8 _dvc, U8 _pg, U8 _addr, U8 *_tbl_ptr, U8 _tbl_cnt)
 	MDATA =	0xff;
 	EA = ON;		// Enable All Interrupt
 }
-
+#endif
 //==================================================================================
 //	
 //	
@@ -127,14 +253,23 @@ U8 PCT_ReadAsicByte(U8 _dvc, U8 _pg, U8 _addr)
 	register U8 _rdat_;
 
 	EA = OFF;		// Disable All Interrupt
+	#if (TW2837==ON)
+	PCT_PageChange(_pg);
+	#endif
+	
 	//... P[7:4]:INT[5:2], P1_3:HALE, P1_2:HRDB, P1_1:HWRB, P1_0:HSPB
 	MCTRL = 0xf6;		//... initial state
 
 	_dvc = 0;			//... temporal
+#if (TW2837==ON) 
+	HCSB0=0;//1;
+	HCSB1=0;//1;
+
+#else
 	if(_pg == DVC_PG0){ HCSB1=0; HCSB0=0;}
 	else if(_pg == DVC_PG1){ HCSB1=0; HCSB0=1;}
 	else if(_pg == DVC_PG2){ HCSB1=1; HCSB0=0;}
-
+#endif	
 	MDATA =	_addr;
 	HALE = 1;
 	HALE = 0;
@@ -144,8 +279,13 @@ U8 PCT_ReadAsicByte(U8 _dvc, U8 _pg, U8 _addr)
 	HRDB = 1;
 
 	MCTRL = 0xf6;		//... initial state
+#if (TW2837==ON) 
+	HCSB0=0;///1;
+	HCSB1=0;///1;
+#else	
 	HCSB0=1;
 	HCSB1=1;
+#endif	
 	EA = ON;		// Enable All Interrupt
 	return _rdat_;
 }
@@ -186,6 +326,16 @@ void PTC_SwitchToI2CMode(void)
 	HWRB 	= 0;
 #endif
 }
+
+void	SetAsicFlgType(U8 _dvc, U8 _pg, U8 _addr, U8 _flg, U8 _data)
+{
+	U8 _t1_;
+
+	_t1_ = PCT_ReadAsicByte(_dvc,_pg,_addr);
+	_t1_ = (_t1_ & ~_flg)|_data;
+	PCT_WriteAsicByte(_dvc,_pg,_addr,_t1_);
+}
+
 
 // ===========================================================================
 // END of File 

@@ -36,7 +36,8 @@
 #include <INTRINS.h>
 #include "SST89x5xxRD2.H"
 
-
+#define TW2837 			ON 
+#define TW2837TABLE 		ON
 //	------------------------------------
 //		Macro Definitions
 //	------------------------------------ 
@@ -44,6 +45,8 @@
 //	------------------------------------ 
 #define GETHBYTE(x)	(unsigned char)(x>>8)&0xFF
 #define GETLBYTE(x)	(unsigned char)x&0xFF
+
+extern unsigned short _delay;
 
 #define	DELAY_FOR(x) for(_delay=0; _delay<(x); _delay++)
 
@@ -78,7 +81,7 @@
 #define PAL   		1
 #define NONE_SYSTEM 2
 
-#if 0
+#if 1
 #define DEF_SYSTEM	NTSC
 #else
 #define DEF_SYSTEM	PAL///For Holger 

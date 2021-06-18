@@ -39,6 +39,8 @@
 #include "CommandShell.h"
 #include "OSDAction.h"
 
+#include "Printf.h"
+#include "monitor.h"
 
 //	------------------------------------
 //			Macro Definitions
@@ -59,7 +61,7 @@
 	sbit osd_chk_flag = commFlag^1;
 	COMMAND_BUFFER RScommand;
 	bit VlossFlag;
-
+	U8 access=1;
 //	------------------------------------
 //			Function Prototypes
 //	------------------------------------
@@ -76,7 +78,7 @@ void CommandShell(void){
 #if 1
 	data BYTE ch;
 
-	if( RS_RxReady() == true && RScommand.commFlage==false ) {
+	if( RS_ready()/*RS_RxReady()*/ == true && RScommand.commFlage==false ) {
 		ch=RS_rx();
 		if( comm_chk_flag )	RS_tx(ch);
 
@@ -209,11 +211,29 @@ void main(void)
 	
 	ResetCommSell();
 	//PCT_CheckSystem();
+	//Printf("\r\nStart TP2835 MainLoop..");
+	//DUMP_reg(0);
+	//DUMP_reg(1);
+	//DUMP_reg(2);
+#if 1//def TW2837_PINOUT_AS_TW2835
+	TW28_WriteByte(DVC_PG0,0x57,0x30);
+    TW28_SetAsicFlgType(DVC_PG1,0x18, BIT3, BIT3);
+    TW28_SetAsicFlgType(DVC_PG1,0x28, BIT3, BIT3);
+#endif	
 
 	while(1){
+#if 1
+if(access==1)
+{
 	CommandShell();
 	if(RScommand.commFlage == true) PCT_RunCommShell(RScommand.commBuf); 
 	if(RScommand.commFlage == true) ResetCommSell(); 
+}
+else 
+	#endif
+	{
+	while( RS_ready())	Monitor();	
+	}
 
 	/*
 	val=TW28_ReadByte(0x00,0x30);

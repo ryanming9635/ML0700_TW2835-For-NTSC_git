@@ -56,6 +56,7 @@
 
 #define TW2835_FUNC_DEFINE  //Pinchi 20150324 modify define name to avoid un-active
 #define AWT_DRAW_T_ICON  //Pinchi 20150415 add to draw T icon when CAM C trigger
+#define TW2837_PINOUT_AS_TW2835
 
 
 #if (TW2835_MCU == TW8816_MODEL_MEGAWIN)  //Pinchi 20150323 add
@@ -104,8 +105,11 @@
 	extern void PCT_SetChanelScale (U8 _ch, WRITE_REG_DATA *datptr);
 	extern void PCT_FlashOSDCtrl(U8 _on);
 	extern void Wait_ms(U16 Tms);
-	
-	
+
+extern BYTE RS_ready(void);	
+extern void Monitor(void);	
+extern void DUMP_reg(BYTE page);
+
 // ===========================================================================
 //			Hardware-independent ( Logical) primitives
 // ===========================================================================

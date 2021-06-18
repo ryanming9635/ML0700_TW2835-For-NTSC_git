@@ -49,9 +49,11 @@
 //	------------------------------------
 #define RS_RECV_MAX_BUFF 80
 	
-BYTE RS_RECVBUF[RS_RECV_MAX_BUFF];
+//BYTE RS_RECVBUF[RS_RECV_MAX_BUFF];
 BYTE RsRxRp,RsRxWp;
 
+extern  BYTE	RS_in, RS_out;
+extern  BYTE	RS_buf[80/*BUF_MAX*/];
 
 //	------------------------------------
 //			Function Prototypes
@@ -109,10 +111,18 @@ BYTE RS_rx (void)
 	//Kane @HS 2007 0809 Ver3.5
 	//if(RS_RECVBUF[RsRxRp+3]=='T' && RS_RECVBUF[RsRxRp+2]=='W' && RS_RECVBUF[RsRxRp+1]=='3'  && RS_RECVBUF[RsRxRp]=='T' )
 	//	return TWCMD;
+	#if 0
 	ret = RS_RECVBUF[RsRxRp];
 	RsRxRp++;
 	if(RsRxRp >= RS_RECV_MAX_BUFF) 
 		RsRxRp = 0;
+	#else
+		ret = RS_buf[RS_out];
+//	ret = DVR_buf[RS_out];
+	RS_out++;
+	if(RS_out >= RS_RECV_MAX_BUFF) 
+		RS_out = 0;
+	#endif
 	ES = 1;
 
 	return ret;
@@ -143,11 +153,15 @@ void RS_interrupt(void) interrupt 4 using 1
 		RI = 0;
 
 		#if 1//ryan@20170914
-
+#if 0
 		RS_RECVBUF[RsRxWp] = SBUF;
 		RsRxWp++;
 		if( RsRxWp >= RS_RECV_MAX_BUFF ) RsRxWp = 0;
+#else
+		RS_buf [RS_in++] = SBUF;//USART_ReceiveData(USART1); 
+   		if( RS_in >= RS_RECV_MAX_BUFF)  RS_in = 0;
 
+#endif
 		#else
 		if(RsRxWp+1==RsRxRp) RsRxRp++;
 		if(RsRxWp==RS_RECV_MAX_BUFF-1 && RsRxRp==0) RsRxRp++;
