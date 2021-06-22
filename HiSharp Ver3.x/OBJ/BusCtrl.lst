@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   BUSCTRL                                                           06/18/2021 17:32:19 PAGE 1   
+C51 COMPILER V9.60.0.0   BUSCTRL                                                           06/22/2021 12:23:03 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE BUSCTRL
@@ -62,7 +62,7 @@ line level    source
   52          
   53          //  ------------------------------------
   54          //      Function Prototypes
-C51 COMPILER V9.60.0.0   BUSCTRL                                                           06/18/2021 17:32:19 PAGE 2   
+C51 COMPILER V9.60.0.0   BUSCTRL                                                           06/22/2021 12:23:03 PAGE 2   
 
   55          //  ------------------------------------
   56          
@@ -126,7 +126,7 @@ line level    source
               #endif  
  115   1        MDATA = _addr;
  116   1        HALE = 1; 
-C51 COMPILER V9.60.0.0   BUSCTRL                                                           06/18/2021 17:32:19 PAGE 3   
+C51 COMPILER V9.60.0.0   BUSCTRL                                                           06/22/2021 12:23:03 PAGE 3   
 
  117   1        HALE = 0;
  118   1        MDATA = _wdat;
@@ -149,194 +149,135 @@ line level    source
  135          //  
  136          //  
  137          //  
- 138          #if 1
- 139          #define BDelay   1
- 140          #define Delay_val 0
- 141          
- 142          extern U16 _delay;
- 143          
- 144          void PCT_WriteAsicTable(U8 _dvc, U8 _pg, U8 _addr, U8 *_tbl_ptr, U8 _tbl_cnt)
- 145          {
- 146   1        _dvc = 0;     //... temporal
- 147   1      
- 148   1        EA = OFF;   // Disable All Interrupt
- 149   1        //... P[7:4]:INT[5:2], P1_3:HALE, P1_2:HRDB, P1_1:HWRB, P1_0:HSPB
- 150   1        //MCTRL_set();///MCTRL = 0xf6;    //... initial state
+ 138          void PCT_WriteAsicTable(U8 _dvc, U8 _pg, U8 _addr, U8 *_tbl_ptr, U8 _tbl_cnt)
+ 139          {
+ 140   1        _dvc = 0;     //... temporal
+ 141   1      
+ 142   1        EA = OFF;   // Disable All Interrupt
+ 143   1        //... P[7:4]:INT[5:2], P1_3:HALE, P1_2:HRDB, P1_1:HWRB, P1_0:HSPB
+ 144   1        //MCTRL_set();///MCTRL = 0xf6;    //... initial state
+ 145   1      
+ 146   1        #if (TW2837==ON)
+ 147   1        PCT_PageChange(_pg);
+ 148   1        #endif
+ 149   1      
+ 150   1          MCTRL = 0xf6;   //... initial state
  151   1      
- 152   1        #if (TW2837==ON)
- 153   1        PCT_PageChange(_pg);
- 154   1        #endif
- 155   1        
- 156   1      #ifdef NED
-                  MCTRL_set();
-              #else
- 159   1          MCTRL = 0xf6;   //... initial state
- 160   1      #endif
- 161   1      
- 162   1      #if (TW2837==ON) 
- 163   1          HCSB0=0;///1;
- 164   1          HCSB1=0;///1;
- 165   1        
- 166   1      #else
+ 152   1      #if (TW2837==ON) 
+ 153   1          HCSB0=0;///1;
+ 154   1          HCSB1=0;///1;
+ 155   1      #else
               
                 if(_pg == DVC_PG0){ HCSB1=0;  HCSB0=0;}
                 else if(_pg == DVC_PG1){  HCSB1=0;  HCSB0=1;}
                 else if(_pg == DVC_PG2){  HCSB1=1;  HCSB0=0;}
               #endif  
- 172   1              #ifdef BDelay
- 173   1                    //Wait_ms(Delay_val);//ryan..
- 174   1                    DELAY_FOR(Delay_val); 
- 175   1                              #endif
+ 161   1              
+ 162   1        do {
+ 163   2          MDATA = _addr++;
+ 164   2          
+ 165   2          HALE = 1;         
+ 166   2          HALE = 0;
+ 167   2        
+ 168   2          MDATA = *_tbl_ptr++;
+ 169   2          HWRB = 0;                       
+ 170   2          HWRB = 1;
+ 171   2        }while( --_tbl_cnt!=0 );
+ 172   1      
+ 173   1      //  MCTRL_set();///MCTRL = 0xf6;    //... initial state
+ 174   1      
+ 175   1          MCTRL = 0xf6;   //... initial state
  176   1      
- 177   1        do {
- 178   2          MDATA = _addr++;
-C51 COMPILER V9.60.0.0   BUSCTRL                                                           06/18/2021 17:32:19 PAGE 4   
+ 177   1      #if (TW2837==ON) 
+ 178   1        HCSB0=0;///1;
+C51 COMPILER V9.60.0.0   BUSCTRL                                                           06/22/2021 12:23:03 PAGE 4   
 
- 179   2          
- 180   2          HALE = 1;
- 181   2                                      #ifdef BDelay
- 182   2                              //Wait_ms(Delay_val);//ryan..
- 183   2                              DELAY_FOR(Delay_val); 
- 184   2                              #endif
- 185   2      
- 186   2          HALE = 0;
- 187   2        
- 188   2          MDATA = *_tbl_ptr++;
- 189   2          HWRB = 0;
- 190   2                                      #ifdef BDelay
- 191   2                              //Wait_ms(Delay_val);//ryan..
- 192   2                              DELAY_FOR(Delay_val); 
- 193   2                              #endif
- 194   2      
- 195   2          HWRB = 1;
- 196   2        }while( --_tbl_cnt!=0 );
- 197   1      
- 198   1      //  MCTRL_set();///MCTRL = 0xf6;    //... initial state
- 199   1      #ifdef NED
-                  MCTRL_set();
-              #else
- 202   1          MCTRL = 0xf6;   //... initial state
- 203   1      #endif
- 204   1      #if (TW2837==ON) 
- 205   1        HCSB0=0;///1;
- 206   1        HCSB1=0;///1;
- 207   1      #else 
+ 179   1        HCSB1=0;///1;
+ 180   1      #else 
                 HCSB0=1;
                 HCSB1=1;
               #endif  
- 211   1        MDATA = 0xff;
- 212   1      
- 213   1        EA = ON;    // Enable All Interrupt
- 214   1      }
- 215          
- 216          
- 217          #else
-              void PCT_WriteAsicTable(U8 _dvc, U8 _pg, U8 _addr, U8 *_tbl_ptr, U8 _tbl_cnt)
-              {
-                _dvc = 0;     //... temporal
-              
-                EA = OFF;   // Disable All Interrupt
-                //... P[7:4]:INT[5:2], P1_3:HALE, P1_2:HRDB, P1_1:HWRB, P1_0:HSPB
-                MCTRL = 0xf6;   //... initial state
-              
-                if(_pg == DVC_PG0){ HCSB1=0;  HCSB0=0;}
-                else if(_pg == DVC_PG1){  HCSB1=0;  HCSB0=1;}
-                else if(_pg == DVC_PG2){  HCSB1=1;  HCSB0=0;}
-              
-                do {
-                  MDATA = _addr++;
-                  HALE = 1;
-                  HALE = 0;
-                
-                  MDATA = *_tbl_ptr++;
-                  HWRB = 0;
-                  HWRB = 1;
-                }while( --_tbl_cnt!=0 );
-              
-                MCTRL = 0xf6;   //... initial state
-C51 COMPILER V9.60.0.0   BUSCTRL                                                           06/18/2021 17:32:19 PAGE 5   
-
-                HCSB0=1;
-                HCSB1=1;
-                MDATA = 0xff;
-                EA = ON;    // Enable All Interrupt
-              }
-              #endif
- 247          //==================================================================================
- 248          //  
- 249          //  
- 250          //  
- 251          U8 PCT_ReadAsicByte(U8 _dvc, U8 _pg, U8 _addr)
- 252          {
- 253   1        register U8 _rdat_;
- 254   1      
- 255   1        EA = OFF;   // Disable All Interrupt
- 256   1        #if (TW2837==ON)
- 257   1        PCT_PageChange(_pg);
- 258   1        #endif
- 259   1        
- 260   1        //... P[7:4]:INT[5:2], P1_3:HALE, P1_2:HRDB, P1_1:HWRB, P1_0:HSPB
- 261   1        MCTRL = 0xf6;   //... initial state
- 262   1      
- 263   1        _dvc = 0;     //... temporal
- 264   1      #if (TW2837==ON) 
- 265   1        HCSB0=0;//1;
- 266   1        HCSB1=0;//1;
- 267   1      
- 268   1      #else
+ 184   1        MDATA = 0xff;
+ 185   1      
+ 186   1        EA = ON;    // Enable All Interrupt
+ 187   1      }
+ 188          
+ 189          
+ 190          //==================================================================================
+ 191          //  
+ 192          //  
+ 193          //  
+ 194          U8 PCT_ReadAsicByte(U8 _dvc, U8 _pg, U8 _addr)
+ 195          {
+ 196   1        register U8 _rdat_;
+ 197   1      
+ 198   1        EA = OFF;   // Disable All Interrupt
+ 199   1        #if (TW2837==ON)
+ 200   1        PCT_PageChange(_pg);
+ 201   1        #endif
+ 202   1        
+ 203   1        //... P[7:4]:INT[5:2], P1_3:HALE, P1_2:HRDB, P1_1:HWRB, P1_0:HSPB
+ 204   1        MCTRL = 0xf6;   //... initial state
+ 205   1      
+ 206   1        _dvc = 0;     //... temporal
+ 207   1      #if (TW2837==ON) 
+ 208   1        HCSB0=0;//1;
+ 209   1        HCSB1=0;//1;
+ 210   1      
+ 211   1      #else
                 if(_pg == DVC_PG0){ HCSB1=0; HCSB0=0;}
                 else if(_pg == DVC_PG1){ HCSB1=0; HCSB0=1;}
                 else if(_pg == DVC_PG2){ HCSB1=1; HCSB0=0;}
               #endif  
- 273   1        MDATA = _addr;
- 274   1        HALE = 1;
- 275   1        HALE = 0;
- 276   1        MDATA = 0xff;   // port0(MDATA) input mode
- 277   1        HRDB = 0;
- 278   1        _rdat_ = MDATA;
- 279   1        HRDB = 1;
- 280   1      
- 281   1        MCTRL = 0xf6;   //... initial state
- 282   1      #if (TW2837==ON) 
- 283   1        HCSB0=0;///1;
- 284   1        HCSB1=0;///1;
- 285   1      #else 
+ 216   1        MDATA = _addr;
+ 217   1        HALE = 1;
+ 218   1        HALE = 0;
+ 219   1        MDATA = 0xff;   // port0(MDATA) input mode
+ 220   1        HRDB = 0;
+ 221   1        _rdat_ = MDATA;
+ 222   1        HRDB = 1;
+ 223   1      
+ 224   1        MCTRL = 0xf6;   //... initial state
+ 225   1      #if (TW2837==ON) 
+ 226   1        HCSB0=0;///1;
+ 227   1        HCSB1=0;///1;
+ 228   1      #else 
                 HCSB0=1;
                 HCSB1=1;
               #endif  
- 289   1        EA = ON;    // Enable All Interrupt
- 290   1        return _rdat_;
- 291   1      }
- 292          
- 293          
- 294          //==================================================================================
- 295          //  
- 296          //  Write Register Address & Data form Table until address=0xFFFF then STOP
- 297          //  
- 298          void PCT_WriteSTable(U8 _dvc, WRITE_REG_DATA *_tbl_ptr)
- 299          {
- 300   1        #define PAGE GETHBYTE(_tbl_ptr->addr)
- 301   1        #define ADDR GETLBYTE(_tbl_ptr->addr)
- 302   1      
-C51 COMPILER V9.60.0.0   BUSCTRL                                                           06/18/2021 17:32:19 PAGE 6   
+ 232   1        EA = ON;    // Enable All Interrupt
+ 233   1        return _rdat_;
+ 234   1      }
+ 235          
+ 236          
+ 237          //==================================================================================
+ 238          //  
+ 239          //  Write Register Address & Data form Table until address=0xFFFF then STOP
+ 240          //  
+C51 COMPILER V9.60.0.0   BUSCTRL                                                           06/22/2021 12:23:03 PAGE 5   
 
- 303   1        _dvc = 0;
- 304   1        while( _tbl_ptr->addr!=0xFFFF ) {
- 305   2            if(TW28_ReadByte(PAGE, ADDR) != _tbl_ptr->dat)//William @HS 2007 0829 Ver3.4
- 306   2              {
- 307   3          TW28_WriteByte(PAGE, ADDR, _tbl_ptr->dat);
- 308   3              }
- 309   2          _tbl_ptr++; 
- 310   2        }
- 311   1      }
- 312          
- 313          //==================================================================================
- 314          //  
- 315          // Change to I2C Control Mode
- 316          //  
- 317          void PTC_SwitchToI2CMode(void)
- 318          {
- 319   1      #ifdef TW28_I2CBUS
+ 241          void PCT_WriteSTable(U8 _dvc, WRITE_REG_DATA *_tbl_ptr)
+ 242          {
+ 243   1        #define PAGE GETHBYTE(_tbl_ptr->addr)
+ 244   1        #define ADDR GETLBYTE(_tbl_ptr->addr)
+ 245   1      
+ 246   1        _dvc = 0;
+ 247   1        while( _tbl_ptr->addr!=0xFFFF ) {
+ 248   2            if(TW28_ReadByte(PAGE, ADDR) != _tbl_ptr->dat)//William @HS 2007 0829 Ver3.4
+ 249   2              {
+ 250   3          TW28_WriteByte(PAGE, ADDR, _tbl_ptr->dat);
+ 251   3              }
+ 252   2          _tbl_ptr++; 
+ 253   2        }
+ 254   1      }
+ 255          
+ 256          //==================================================================================
+ 257          //  
+ 258          // Change to I2C Control Mode
+ 259          //  
+ 260          void PTC_SwitchToI2CMode(void)
+ 261          {
+ 262   1      #ifdef TW28_I2CBUS
                 HSPB  = 1;
                 HALE  = 1;
                 MDATA   = 0xFF; 
@@ -345,28 +286,28 @@ line level    source
                 HRDB  = 0;
                 HWRB  = 0;
               #endif
- 328   1      }
- 329          
- 330          void  SetAsicFlgType(U8 _dvc, U8 _pg, U8 _addr, U8 _flg, U8 _data)
- 331          {
- 332   1        U8 _t1_;
- 333   1      
- 334   1        _t1_ = PCT_ReadAsicByte(_dvc,_pg,_addr);
- 335   1        _t1_ = (_t1_ & ~_flg)|_data;
- 336   1        PCT_WriteAsicByte(_dvc,_pg,_addr,_t1_);
- 337   1      }
- 338          
- 339          
- 340          // ===========================================================================
- 341          // END of File 
- 342          // ===========================================================================
- 343          
+ 271   1      }
+ 272          #if 0
+              void  SetAsicFlgType(U8 _dvc, U8 _pg, U8 _addr, U8 _flg, U8 _data)
+              {
+                U8 _t1_;
+              
+                _t1_ = PCT_ReadAsicByte(_dvc,_pg,_addr);
+                _t1_ = (_t1_ & ~_flg)|_data;
+                PCT_WriteAsicByte(_dvc,_pg,_addr,_t1_);
+              }
+              #endif
+ 282          
+ 283          // ===========================================================================
+ 284          // END of File 
+ 285          // ===========================================================================
+ 286          
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    385    ----
+   CODE SIZE        =    263    ----
    CONSTANT SIZE    =   ----    ----
-   XDATA SIZE       =   ----      20
+   XDATA SIZE       =   ----      15
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----

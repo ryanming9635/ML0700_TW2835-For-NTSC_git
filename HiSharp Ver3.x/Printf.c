@@ -246,7 +246,7 @@ void Printf( const char CODE_P *fmt, ... )
 	DoPrint( fmt, ap );
 	va_end( ap );
 }
-
+#if (HS_DEBUG==ON)
 void DEBUG_MESSAGE( const char CODE_P *fmt, ... )
 {
 	va_list ap;
@@ -257,7 +257,7 @@ void DEBUG_MESSAGE( const char CODE_P *fmt, ... )
 	va_end( ap );
 
 }
-
+#endif
 void Puts( CODE_P char *ptr )
 {
 	while(*ptr!='\0')
@@ -340,7 +340,7 @@ void ePuts( CODE_P char *ptr )
 //===========================================================================//
 //                                                                          GraphicsPrint
 //===========================================================================//
-
+#if (HS_DEBUG==ON)
 void GraphicsPrint(PRINT_COLOR_e mode, const char *Message, ...)
 {
 
@@ -371,7 +371,7 @@ void GraphicsPrint(PRINT_COLOR_e mode, const char *Message, ...)
 		#endif
 	
 }
-
+#endif
 
 //===========================================================================//
 //                                                                           //

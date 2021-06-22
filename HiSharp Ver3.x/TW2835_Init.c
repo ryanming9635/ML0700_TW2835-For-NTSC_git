@@ -42,7 +42,6 @@
 #include "Main.h"
 
 
-
 //	------------------------------------
 //			Macro Definitions
 //	------------------------------------ 
@@ -127,9 +126,13 @@ void PCT_TW2835_Initial(void)
 	offset = SYSTYPE * 256;	
 
 #if (TW2837TABLE==ON)
+
 	TW28_WriteTable(0x00, 0x00, TW2835_Page0+offset, ((16*5)+8));
 
-	TW28_WriteTable(0x00, 0x60, (TW2835_Page0+offset+0x60), ((16*6)+10));
+	TW28_WriteTable(0x00, 0x60, (TW2835_Page0+offset+0x60), (16));
+	TW28_WriteTable(0x00, 0x70, (TW2835_Page0+offset+0x70), (4));
+	
+	TW28_WriteTable(0x00, 0x80, (TW2835_Page0+offset+0x80), (16*5));
 
 	TW28_WriteTable(0x01, 0x00, TW2835_Page1+offset, 160);
 
@@ -146,7 +149,7 @@ void PCT_TW2835_Initial(void)
 	TW28_WriteTable(0x01, 0xA0, TW2835_Page1+offset+0xA0, 16);
 #endif
 
-#if 1// (TW2837TABLE==ON)
+#if (TW2837TABLE==ON)
 
 	TW28_WriteTable(0x02, 0x10, TW2835_Page2, (16*3));
 	TW28_WriteTable(0x02, 0x50, TW2835_Page2+0x30, (16*1));

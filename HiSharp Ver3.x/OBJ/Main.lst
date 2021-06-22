@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   MAIN                                                              06/18/2021 17:32:20 PAGE 1   
+C51 COMPILER V9.60.0.0   MAIN                                                              06/22/2021 12:23:04 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
@@ -52,312 +52,306 @@ line level    source
   42          #include "Printf.h"
   43          #include "monitor.h"
   44          
-  45          
-  46          //  ------------------------------------
-  47          //      Macro Definitions
-  48          //  ------------------------------------ 
+  45          //  ------------------------------------
+  46          //      Macro Definitions
+  47          //  ------------------------------------ 
+  48          
   49          
-  50          
-  51          //  ------------------------------------
-  52          //      Type Definitions
-  53          //  ------------------------------------
+  50          //  ------------------------------------
+  51          //      Type Definitions
+  52          //  ------------------------------------
+  53          
   54          
-C51 COMPILER V9.60.0.0   MAIN                                                              06/18/2021 17:32:20 PAGE 2   
+C51 COMPILER V9.60.0.0   MAIN                                                              06/22/2021 12:23:04 PAGE 2   
 
-  55          
-  56          //  ------------------------------------
-  57          //      Variables Definitions
-  58          //  ------------------------------------
-  59            U16 _delay;
-  60            U8 bdata commFlag;
-  61            sbit comm_chk_flag = commFlag^0;
-  62            sbit osd_chk_flag = commFlag^1;
-  63            COMMAND_BUFFER RScommand;
-  64            bit VlossFlag;
-  65            U8 access=1;
-  66          //  ------------------------------------
-  67          //      Function Prototypes
-  68          //  ------------------------------------
-  69          
+  55          //  ------------------------------------
+  56          //      Variables Definitions
+  57          //  ------------------------------------
+  58            U16 _delay;
+  59            U8 bdata commFlag;
+  60            sbit comm_chk_flag = commFlag^0;
+  61            sbit osd_chk_flag = commFlag^1;
+  62            COMMAND_BUFFER RScommand;
+  63            bit VlossFlag;
+  64            #if (HS_DEBUG==ON)
+                U8 access=1;
+                #endif
+  67          //  ------------------------------------
+  68          //      Function Prototypes
+  69          //  ------------------------------------
   70          
-  71          // ===========================================================================
-  72          //                      Parallel function description
-  73          // ===========================================================================
-  74          //
-  75          //  Command Shell for Debug
-  76          //
-  77          void CommandShell(void){
-  78   1      //Kane @HS 2007 0809 Ver3.5>>>>
-  79   1      #if 1
-  80   1        data BYTE ch;
-  81   1      
-  82   1        if( RS_ready()/*RS_RxReady()*/ == true && RScommand.commFlage==false ) {
-  83   2          ch=RS_rx();
-  84   2          if( comm_chk_flag ) RS_tx(ch);
-  85   2      
-  86   2          switch(ch) {
-  87   3            case '\r':
-  88   3              RScommand.commBuf[RScommand.WritePtr] = '\0';
-  89   3              RScommand.commFlage = true;
-  90   3              chkStartCommShell(RScommand.commBuf);
-  91   3              if( comm_chk_flag ) NewLine();
-  92   3              break;
-  93   3            
-  94   3            case 0x08:
-  95   3              RScommand.WritePtr--;
-  96   3              break;
-  97   3      
-  98   3            default:
-  99   3              RScommand.commBuf[RScommand.WritePtr] = ch;
- 100   3              RScommand.WritePtr++;
- 101   3              break;
- 102   3          }
- 103   2        }
- 104   1      #endif
- 105   1      }
- 106          
- 107          // ===========================================================================
- 108          //
+  71          
+  72          // ===========================================================================
+  73          //                      Parallel function description
+  74          // ===========================================================================
+  75          //
+  76          //  Command Shell for Debug
+  77          //
+  78          void CommandShell(void){
+  79   1      //Kane @HS 2007 0809 Ver3.5>>>>
+  80   1      #if 1
+  81   1        data BYTE ch;
+  82   1      
+  83   1        if( RS_RxReady() == true && RScommand.commFlage==false ) {
+  84   2          ch=RS_rx();
+  85   2          if( comm_chk_flag ) RS_tx(ch);
+  86   2      
+  87   2          switch(ch) {
+  88   3            case '\r':
+  89   3              RScommand.commBuf[RScommand.WritePtr] = '\0';
+  90   3              RScommand.commFlage = true;
+  91   3              chkStartCommShell(RScommand.commBuf);
+  92   3              if( comm_chk_flag ) NewLine();
+  93   3              break;
+  94   3            
+  95   3            case 0x08:
+  96   3              RScommand.WritePtr--;
+  97   3              break;
+  98   3      
+  99   3            default:
+ 100   3              RScommand.commBuf[RScommand.WritePtr] = ch;
+ 101   3              RScommand.WritePtr++;
+ 102   3              break;
+ 103   3          }
+ 104   2        }
+ 105   1      #endif
+ 106   1      }
+ 107          
+ 108          // ===========================================================================
  109          //
  110          //
- 111          void NewLine(void)
- 112          {
- 113   1        puts("\r\n");                   
- 114   1      }
- 115          
- 116          // ===========================================================================
-C51 COMPILER V9.60.0.0   MAIN                                                              06/18/2021 17:32:20 PAGE 3   
+ 111          //
+ 112          void NewLine(void)
+ 113          {
+ 114   1        puts("\r\n");                   
+ 115   1      }
+ 116          
+C51 COMPILER V9.60.0.0   MAIN                                                              06/22/2021 12:23:04 PAGE 3   
 
- 117          //
+ 117          // ===========================================================================
  118          //
  119          //
- 120          void PutsP(BYTE *ptr)
- 121          {
- 122   1        data BYTE ch;
- 123   1        
- 124   1        while(*ptr!='\0') {
- 125   2          ch = *ptr++;
- 126   2          RS_tx(ch);
- 127   2        }
- 128   1      }
- 129          
- 130          // ===========================================================================
- 131          //
- 132          //  Restart Command Shell 
- 133          //
- 134          void ResetCommSell(void)
- 135          {
- 136   1        if( comm_chk_flag ) PutsP("Debug Program >");
- 137   1      
- 138   1        RScommand.WritePtr = 0;
- 139   1        RScommand.commFlage = false;
- 140   1        RScommand.commBuf[0] = '\0';
- 141   1      }
- 142          
- 143          // ===========================================================================
- 144          //
- 145          //  Falsh OSD Contril
- 146          //
- 147          void PCT_FlashOSDCtrl(U8 _on)
- 148          {
- 149   1        if(_on) osd_chk_flag=false;
- 150   1        else osd_chk_flag=true;
- 151   1      }
- 152          
- 153          // ===========================================================================
- 154          //
- 155          //  Initial Command Shell 
- 156          //
- 157          void InitialCommShell(void)
- 158          {
- 159   1        comm_chk_flag=false;
- 160   1        osd_chk_flag=false;
- 161   1      
- 162   1        //VlossState=0;
- 163   1        VlossFlag=0;
- 164   1        VlossCount=0;
- 165   1      }
- 166          
- 167          // ===========================================================================
- 168          //
- 169          //  Start Command Shell 
- 170          //
- 171          void chkStartCommShell(char *ptr)
- 172          {
- 173   1        if( comm_chk_flag ) return;
- 174   1        if( strcmp(ptr,"PCT")==0 ) comm_chk_flag=true;
- 175   1      }
- 176          
- 177          void Wait_ms(U16 Tms)
- 178          {
-C51 COMPILER V9.60.0.0   MAIN                                                              06/18/2021 17:32:20 PAGE 4   
+ 120          //
+ 121          void PutsP(BYTE *ptr)
+ 122          {
+ 123   1        data BYTE ch;
+ 124   1        
+ 125   1        while(*ptr!='\0') {
+ 126   2          ch = *ptr++;
+ 127   2          RS_tx(ch);
+ 128   2        }
+ 129   1      }
+ 130          
+ 131          // ===========================================================================
+ 132          //
+ 133          //  Restart Command Shell 
+ 134          //
+ 135          void ResetCommSell(void)
+ 136          {
+ 137   1        if( comm_chk_flag ) PutsP("Debug Program >");
+ 138   1      
+ 139   1        RScommand.WritePtr = 0;
+ 140   1        RScommand.commFlage = false;
+ 141   1        RScommand.commBuf[0] = '\0';
+ 142   1      }
+ 143          
+ 144          // ===========================================================================
+ 145          //
+ 146          //  Falsh OSD Contril
+ 147          //
+ 148          void PCT_FlashOSDCtrl(U8 _on)
+ 149          {
+ 150   1        if(_on) osd_chk_flag=false;
+ 151   1        else osd_chk_flag=true;
+ 152   1      }
+ 153          
+ 154          // ===========================================================================
+ 155          //
+ 156          //  Initial Command Shell 
+ 157          //
+ 158          void InitialCommShell(void)
+ 159          {
+ 160   1        comm_chk_flag=false;
+ 161   1        osd_chk_flag=false;
+ 162   1      
+ 163   1        //VlossState=0;
+ 164   1        VlossFlag=0;
+ 165   1        VlossCount=0;
+ 166   1      }
+ 167          
+ 168          // ===========================================================================
+ 169          //
+ 170          //  Start Command Shell 
+ 171          //
+ 172          void chkStartCommShell(char *ptr)
+ 173          {
+ 174   1        if( comm_chk_flag ) return;
+ 175   1        if( strcmp(ptr,"PCT")==0 ) comm_chk_flag=true;
+ 176   1      }
+ 177          
+ 178          void Wait_ms(U16 Tms)
+C51 COMPILER V9.60.0.0   MAIN                                                              06/22/2021 12:23:04 PAGE 4   
 
- 179   1      #if (TW2835_MCU == TW8806_MODEL_WINBOND)  //Pinchi 20150325 add
+ 179          {
+ 180   1      #if (TW2835_MCU == TW8806_MODEL_WINBOND)  //Pinchi 20150325 add
                 #define CPU_CLK_KHZ   40000
                 #define CountStick    (1000000U/((CPU_CLK_KHZ*CPU_SPEED)/12))/20
               #else  //Megawin
- 183   1        #define CPU_CLK_KHZ   22118
- 184   1        #define CountStick    ((1000000U/((CPU_CLK_KHZ*CPU_SPEED)/12))/20)*8  
- 185   1      #endif
- 186   1        #define CPU_SPEED     1    
- 187   1      
- 188   1        U16 count;
- 189   1      
- 190   1        while(Tms)
- 191   1        {
- 192   2          for(count=0; count<CountStick; count++);//total 20 clock for this loop
- 193   2            Tms--;
- 194   2        }
- 195   1      }
- 196          
- 197          // ===========================================================================
- 198          //
+ 184   1        #define CPU_CLK_KHZ   22118
+ 185   1        #define CountStick    ((1000000U/((CPU_CLK_KHZ*CPU_SPEED)/12))/20)*8  
+ 186   1      #endif
+ 187   1        #define CPU_SPEED     1    
+ 188   1      
+ 189   1        U16 count;
+ 190   1      
+ 191   1        while(Tms)
+ 192   1        {
+ 193   2          for(count=0; count<CountStick; count++);//total 20 clock for this loop
+ 194   2            Tms--;
+ 195   2        }
+ 196   1      }
+ 197          
+ 198          // ===========================================================================
  199          //
  200          //
- 201          void main(void)
- 202          {
- 203   1        U8 Counter=0;
- 204   1        U8 OsdCount1=200;//Kane @HS 2007 0725 Ver3.4
- 205   1        U8 OsdCount2=100;//Kane @HS 2007 0725 Ver3.4
- 206   1        //BYTE val;
- 207   1      
- 208   1        InitialMPU(); 
- 209   1        InitialCommShell();
- 210   1        PTC_SwitchToI2CMode();
- 211   1      
+ 201          //
+ 202          void main(void)
+ 203          {
+ 204   1        U8 Counter=0;
+ 205   1        U8 OsdCount1=200;//Kane @HS 2007 0725 Ver3.4
+ 206   1        U8 OsdCount2=100;//Kane @HS 2007 0725 Ver3.4
+ 207   1        //BYTE val;
+ 208   1      
+ 209   1        InitialMPU(); 
+ 210   1        InitialCommShell();
+ 211   1        PTC_SwitchToI2CMode();
  212   1        PCT_InitialTW2835();  // Initial RssetN for TW2835
- 213   1        ResetCommSell();
- 214   1        //PCT_CheckSystem();
- 215   1        //Printf("\r\nStart TP2835 MainLoop..");
- 216   1        //DUMP_reg(0);
- 217   1        //DUMP_reg(1);
- 218   1        //DUMP_reg(2);
- 219   1      #if 1//def TW2837_PINOUT_AS_TW2835
- 220   1        TW28_WriteByte(DVC_PG0,0x57,0x30);
- 221   1          TW28_SetAsicFlgType(DVC_PG1,0x18, BIT3, BIT3);
- 222   1          TW28_SetAsicFlgType(DVC_PG1,0x28, BIT3, BIT3);
- 223   1      #endif  
- 224   1      
- 225   1        while(1){
- 226   2      #if 1
- 227   2      if(access==1)
- 228   2      {
- 229   3        CommandShell();
- 230   3        if(RScommand.commFlage == true) PCT_RunCommShell(RScommand.commBuf); 
- 231   3        if(RScommand.commFlage == true) ResetCommSell(); 
- 232   3      }
- 233   2      else 
- 234   2        #endif
- 235   2        {
- 236   3        while( RS_ready())  Monitor();  
- 237   3        }
- 238   2      
- 239   2      
- 240   2        /*
-C51 COMPILER V9.60.0.0   MAIN                                                              06/18/2021 17:32:20 PAGE 5   
+ 213   1        
+ 214   1        ResetCommSell();
+ 215   1        //PCT_CheckSystem();
+ 216   1      //#if (TW2837==ON)//def TW2837_PINOUT_AS_TW2835
+ 217   1      //  TW28_WriteByte(DVC_PG0,0x57,0x30);
+ 218   1       //   TW28_SetAsicFlgType(DVC_PG1,0x18, BIT3, BIT3);
+ 219   1       //   TW28_SetAsicFlgType(DVC_PG1,0x28, BIT3, BIT3);
+ 220   1      //#endif  
+ 221   1      
+ 222   1        while(1){
+ 223   2      #if (HS_DEBUG==ON)
+              
+              if(access==1)
+              {
+                CommandShell();
+                if(RScommand.commFlage == true) PCT_RunCommShell(RScommand.commBuf); 
+                if(RScommand.commFlage == true) ResetCommSell(); 
+              }
+              else 
+              
+                {
+                while( RS_RxReady())  Monitor();  
+                }
+              #else
+ 237   2      CommandShell();
+ 238   2      if(RScommand.commFlage == true) PCT_RunCommShell(RScommand.commBuf); 
+ 239   2      if(RScommand.commFlage == true) ResetCommSell(); 
+ 240   2      
+C51 COMPILER V9.60.0.0   MAIN                                                              06/22/2021 12:23:04 PAGE 5   
 
- 241   2        val=TW28_ReadByte(0x00,0x30);
- 242   2        if(val==0)
- 243   2          TW28_WriteByte(0x00,0x31,TW28_ReadByte(0x00,0x31)&0x7f);
- 244   2        if(val!=VlossState)
- 245   2          {
- 246   2            //VlossCount++;
- 247   2          //if(VlossCount>=5)
- 248   2            //{
- 249   2            VlossState=val;
- 250   2            VlossFlag=1;
- 251   2            //VlossCount=0;
- 252   2            //}
- 253   2          }
- 254   2        //else
- 255   2          //VlossCount=0; 
- 256   2        */
- 257   2      #if 1  //pinchi test
- 258   2          //William-V3.10-20100206>>>>>>>>>>>>>>>>
- 259   2        if(VlossFlag==1)
- 260   2        {
- 261   3          if(PCT_CheckSystem())//Kane Modified
- 262   3            VlossFlag=0;
- 263   3        }
- 264   2        //<<<<<<<<<<<<<<<<<<<<<<<
- 265   2      #endif    
- 266   2        if(RS_RxReady()) EnUserTimer(USERTMID1,OsdCount1);//Kane @HS 2007 0725 Ver3.4
- 267   2        if(USERTMVAL1==1) {
- 268   3          //PCT_AudioActionForHS();
- 269   3          //PCT_OSDActionForHS();
- 270   3          //PCT_FlashOSDCtrl(OFF);
- 271   3          DisUserTimer(USERTMID1);
- 272   3          EnUserTimer(USERTMID0,OsdCount2);//Kane @HS 2007 0725 Ver3.4  // Reset Scan Time, Delay Check and show
- 273   3        }
- 274   2      
- 275   2        
+ 241   2      #endif
+ 242   2        /*
+ 243   2        val=TW28_ReadByte(0x00,0x30);
+ 244   2        if(val==0)
+ 245   2          TW28_WriteByte(0x00,0x31,TW28_ReadByte(0x00,0x31)&0x7f);
+ 246   2        if(val!=VlossState)
+ 247   2          {
+ 248   2            //VlossCount++;
+ 249   2          //if(VlossCount>=5)
+ 250   2            //{
+ 251   2            VlossState=val;
+ 252   2            VlossFlag=1;
+ 253   2            //VlossCount=0;
+ 254   2            //}
+ 255   2          }
+ 256   2        //else
+ 257   2          //VlossCount=0; 
+ 258   2        */
+ 259   2      #if 1  //pinchi test
+ 260   2          //William-V3.10-20100206>>>>>>>>>>>>>>>>
+ 261   2        if(VlossFlag==1)
+ 262   2        {
+ 263   3          if(PCT_CheckSystem())//Kane Modified
+ 264   3            VlossFlag=0;
+ 265   3        }
+ 266   2        //<<<<<<<<<<<<<<<<<<<<<<<
+ 267   2      #endif    
+ 268   2        if(RS_RxReady()) EnUserTimer(USERTMID1,OsdCount1);//Kane @HS 2007 0725 Ver3.4
+ 269   2        if(USERTMVAL1==1) {
+ 270   3          //PCT_AudioActionForHS();
+ 271   3          //PCT_OSDActionForHS();
+ 272   3          //PCT_FlashOSDCtrl(OFF);
+ 273   3          DisUserTimer(USERTMID1);
+ 274   3          EnUserTimer(USERTMID0,OsdCount2);//Kane @HS 2007 0725 Ver3.4  // Reset Scan Time, Delay Check and show
+ 275   3        }
  276   2        if(USERTMVAL0==1) {
  277   3          PCT_GetVideoSignalStatus(); // Check and Show "VLoss", scan time = 500ms
  278   3          EnUserTimer(USERTMID0,20);
  279   3        }
- 280   2      
- 281   2        
- 282   2        
- 283   2        
- 284   2        }
- 285   1        OsdCount1 = 10;//Kane @HS 2007 0725 Ver3.4
- 286   1        OsdCount2 = 20;//Kane @HS 2007 0725 Ver3.4
- 287   1      
- 288   1        
- 289   1      }
- 290          
- 291          // ===========================================================================
- 292          //
- 293          //
- 294          //
- 295          void InitialMPU(void){
- 296   1      
- 297   1        IP = 0x00;
- 298   1        IE = 0x00;    
- 299   1      
- 300   1      #if (TW2835_MCU == TW8816_MODEL_MEGAWIN)  //Pinchi 20150323 add
- 301   1        PCON = 0x80;  // Set SMOD bit7 in power ctrl reg
- 302   1                // This bit doubles the baud rate
-C51 COMPILER V9.60.0.0   MAIN                                                              06/18/2021 17:32:20 PAGE 6   
-
- 303   1      #else
+ 280   2        }
+ 281   1      
+ 282   1        //OsdCount1 = 10;//Kane @HS 2007 0725 Ver3.4
+ 283   1        //OsdCount2 = 20;//Kane @HS 2007 0725 Ver3.4
+ 284   1      }
+ 285          
+ 286          // ===========================================================================
+ 287          //
+ 288          //
+ 289          //
+ 290          void InitialMPU(void){
+ 291   1      
+ 292   1        IP = 0x00;
+ 293   1        IE = 0x00;    
+ 294   1      
+ 295   1      #if (TW2835_MCU == TW8816_MODEL_MEGAWIN)  //Pinchi 20150323 add
+ 296   1        PCON = 0x80;  // Set SMOD bit7 in power ctrl reg
+ 297   1                // This bit doubles the baud rate
+ 298   1      #else
                 PCON = 0x00;  // Clear SMOD bit7 in power ctrl reg 
                         // This bit doubles the baud rate
               #endif
- 307   1      
- 308   1        PSW  = 0x00;  // Set Program state Register
- 309   1        TMOD = 0x21;  // Set Timer MODE Register
- 310   1                // Timer0: MODE=1, 16-BIT Timer
- 311   1                // Timer1: MODE=2, 8-BIT Auto Reload )
- 312   1        TCON = 0x00;  // Set Timer0/Timer1 Control Register
- 313   1                // Timer0=OFF,Timer1=OFF
- 314   1        SCON = 0x52;  // Setup Serial control Register
- 315   1                // Mode 1: Start Bit=1,Stop Bit=1,Data Bit=8 
- 316   1                // and ready Transmit
- 317   1                // REN: enable receiver 
- 318   1        P3M0=0x00;
- 319   1        P3M1=0x10;//ryan@20180322
- 320   1        
- 321   1        InitialUART();
- 322   1        InitialTimer0();
- 323   1        
- 324   1        TI = 1;     //* Set TI to indicate ready to xmit */
- 325   1        EA=1;
- 326   1        _nop_();
- 327   1      }
- 328          
- 329          
- 330          
- 331          // ===========================================================================
- 332          // END of File 
- 333          // ===========================================================================
-*** WARNING C294 IN LINE 285 OF Main.c: unreachable code
+ 302   1      
+C51 COMPILER V9.60.0.0   MAIN                                                              06/22/2021 12:23:04 PAGE 6   
+
+ 303   1        PSW  = 0x00;  // Set Program state Register
+ 304   1        TMOD = 0x21;  // Set Timer MODE Register
+ 305   1                // Timer0: MODE=1, 16-BIT Timer
+ 306   1                // Timer1: MODE=2, 8-BIT Auto Reload )
+ 307   1        TCON = 0x00;  // Set Timer0/Timer1 Control Register
+ 308   1                // Timer0=OFF,Timer1=OFF
+ 309   1        SCON = 0x52;  // Setup Serial control Register
+ 310   1                // Mode 1: Start Bit=1,Stop Bit=1,Data Bit=8 
+ 311   1                // and ready Transmit
+ 312   1                // REN: enable receiver 
+ 313   1        P3M0=0x00;
+ 314   1        P3M1=0x10;//ryan@20180322
+ 315   1        
+ 316   1        InitialUART();
+ 317   1        InitialTimer0();
+ 318   1        
+ 319   1        TI = 1;     //* Set TI to indicate ready to xmit */
+ 320   1        EA=1;
+ 321   1        _nop_();
+ 322   1      }
+ 323          
+ 324          
+ 325          
+ 326          // ===========================================================================
+ 327          // END of File 
+ 328          // ===========================================================================
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    556    ----
+   CODE SIZE        =    487    ----
    CONSTANT SIZE    =     23    ----
-   XDATA SIZE       =     46      13
+   XDATA SIZE       =     45      13
    PDATA SIZE       =   ----    ----
    DATA SIZE        =      1       2
    IDATA SIZE       =   ----    ----
@@ -365,4 +359,4 @@ MODULE INFORMATION:   STATIC OVERLAYABLE
 END OF MODULE INFORMATION.
 
 
-C51 COMPILATION COMPLETE.  1 WARNING(S),  0 ERROR(S)
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

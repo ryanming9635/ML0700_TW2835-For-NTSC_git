@@ -17,7 +17,7 @@
 
 #define _DEBUG_MESSAGE_COLOR_MESSAGE			OFF//ON
 
-#if 1
+#if 0
 #define HS_DEBUG   ON
 #else
 #define HS_DEBUG   OFF

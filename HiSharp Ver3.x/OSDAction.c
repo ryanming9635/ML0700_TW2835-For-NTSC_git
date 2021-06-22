@@ -55,7 +55,7 @@
 #define LOCATE_XM1	41
 #define LOCATE_XM2	62
 
-#define LOCATE_YT0	0
+#define LOCATE_YT0	(0)
 #define LOCATE_YT0_P	1//for holger Pal
 #define LOCATE_YT1	15
 #define LOCATE_YT2	18
@@ -411,7 +411,7 @@ void PCT_GetVideoSignalStatus(void)
 #define ICONBIT	0x0C
 #define ICONSFT	2
 
-code unsigned char indicate_icon[] = {
+code volatile unsigned char indicate_icon[] = {
 	0x20,'\0',	//+ 0x20,'\0',
 	0x0B,'\0',  //+ 0x02,'\0',
 	0x0C,'\0',  //+ 0x03,'\0',
@@ -437,6 +437,7 @@ void PCT_ShowIndicateIcon(PU8 _attr)
 			} 
 			else {
 				PCT_ClearWordsPathX(ILCT_X1, SYSTYPE, 1);
+				
 			#ifdef AWT_DRAW_T_ICON  //Pinchi 20150415 add to draw T icon when CAM C trigger
 				if (_attr[0] & 0x20)
 				{

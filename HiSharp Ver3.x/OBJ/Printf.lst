@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   PRINTF                                                            06/18/2021 17:32:21 PAGE 1   
+C51 COMPILER V9.60.0.0   PRINTF                                                            06/22/2021 12:23:05 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE PRINTF
@@ -62,7 +62,7 @@ line level    source
   52          "\033[0m",
   53          "\033[0;31m",
   54          "\033[0;32m",
-C51 COMPILER V9.60.0.0   PRINTF                                                            06/18/2021 17:32:21 PAGE 2   
+C51 COMPILER V9.60.0.0   PRINTF                                                            06/22/2021 12:23:05 PAGE 2   
 
   55          "\033[0;33m",
   56          "\033[0;34m",
@@ -126,7 +126,7 @@ line level    source
  114   2          //----- Get char(B) / int / long(L) ----------------
  115   2      
  116   2          fl_len = 2;
-C51 COMPILER V9.60.0.0   PRINTF                                                            06/18/2021 17:32:21 PAGE 3   
+C51 COMPILER V9.60.0.0   PRINTF                                                            06/22/2021 12:23:05 PAGE 3   
 
  117   2      
  118   2          switch(ch) {
@@ -190,7 +190,7 @@ line level    source
  176   4      
  177   4                value = value % (mask);
  178   4                mask = mask / 10;
-C51 COMPILER V9.60.0.0   PRINTF                                                            06/18/2021 17:32:21 PAGE 4   
+C51 COMPILER V9.60.0.0   PRINTF                                                            06/22/2021 12:23:05 PAGE 4   
 
  179   4                
  180   4                if( mask==0 )
@@ -254,7 +254,7 @@ line level    source
  238          //===========================================================================//
  239          //va_list ap;
  240          
-C51 COMPILER V9.60.0.0   PRINTF                                                            06/18/2021 17:32:21 PAGE 5   
+C51 COMPILER V9.60.0.0   PRINTF                                                            06/22/2021 12:23:05 PAGE 5   
 
  241          void Printf( const char CODE_P *fmt, ... )
  242          {
@@ -264,18 +264,18 @@ line level    source
  246   1        DoPrint( fmt, ap );
  247   1        va_end( ap );
  248   1      }
- 249          
- 250          void DEBUG_MESSAGE( const char CODE_P *fmt, ... )
- 251          {
- 252   1        va_list ap;
- 253   1        va_start(ap, fmt);
- 254   1      #ifdef HS_DEBUG
- 255   1        DoPrint( fmt, ap );
- 256   1      #endif
- 257   1        va_end( ap );
- 258   1      
- 259   1      }
- 260          
+ 249          #if (HS_DEBUG==ON)
+              void DEBUG_MESSAGE( const char CODE_P *fmt, ... )
+              {
+                va_list ap;
+                va_start(ap, fmt);
+              #ifdef HS_DEBUG
+                DoPrint( fmt, ap );
+              #endif
+                va_end( ap );
+              
+              }
+              #endif
  261          void Puts( CODE_P char *ptr )
  262          {
  263   1        while(*ptr!='\0')
@@ -318,7 +318,7 @@ line level    source
                 va_list ap;
               
                 if( DebugLevel >= DEBUG_ERR ) {
-C51 COMPILER V9.60.0.0   PRINTF                                                            06/18/2021 17:32:21 PAGE 6   
+C51 COMPILER V9.60.0.0   PRINTF                                                            06/22/2021 12:23:05 PAGE 6   
 
                   va_start(ap, fmt);
                   DoPrint( fmt, ap );
@@ -360,11 +360,11 @@ line level    source
  340          //===========================================================================//
  341          //                                                                          GraphicsPrint
  342          //===========================================================================//
- 343          
- 344          void GraphicsPrint(PRINT_COLOR_e mode, const char *Message, ...)
- 345          {
- 346   1      
- 347   1          #if (_DEBUG_MESSAGE_COLOR_MESSAGE==ON)
+ 343          #if (HS_DEBUG==ON)
+              void GraphicsPrint(PRINT_COLOR_e mode, const char *Message, ...)
+              {
+              
+                  #if (_DEBUG_MESSAGE_COLOR_MESSAGE==ON)
               
                   va_list ap;
               
@@ -382,18 +382,18 @@ line level    source
                   DEBUG_MESSAGE( _PrintColor[PRINT_COLOR_BLACK]);
                     }
                   #else
-C51 COMPILER V9.60.0.0   PRINTF                                                            06/18/2021 17:32:21 PAGE 7   
+C51 COMPILER V9.60.0.0   PRINTF                                                            06/22/2021 12:23:05 PAGE 7   
 
- 365   1            va_list ap;
- 366   1            va_start(ap, Message);
- 367   1            DoPrint( Message, ap );
- 368   1            va_end( ap );
- 369   1            mode=1;
- 370   1            
- 371   1          #endif
- 372   1        
- 373   1      }
- 374          
+                    va_list ap;
+                    va_start(ap, Message);
+                    DoPrint( Message, ap );
+                    va_end( ap );
+                    mode=1;
+                    
+                  #endif
+                
+              }
+              #endif
  375          
  376          //===========================================================================//
  377          //                                                                           //
@@ -424,9 +424,9 @@ line level    source
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =   1190    ----
+   CODE SIZE        =   1073    ----
    CONSTANT SIZE    =     61    ----
-   XDATA SIZE       =     41     163
+   XDATA SIZE       =     41      70
    PDATA SIZE       =   ----    ----
    DATA SIZE        =   ----    ----
    IDATA SIZE       =   ----    ----

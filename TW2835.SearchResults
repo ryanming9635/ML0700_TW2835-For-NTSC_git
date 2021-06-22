@@ -1,56 +1,8 @@
----- Video_HDelay Matches (55 in 2 files) ----
-TW28xx_Video.c (hisharp ver3.x):177:			if(TW28_ReadByte(0, (_winch[0]<<4)|0x02) != Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
-TW28xx_Video.c (hisharp ver3.x):178:				TW28_WriteByte(0, (_winch[0]<<4)|0x02,Video_HDelay[hdelay]);
-TW28xx_Video.c (hisharp ver3.x):186:			if(TW28_ReadByte(0, (_winch[0]<<4)|0x02) != Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
-TW28xx_Video.c (hisharp ver3.x):187:				TW28_WriteByte(0, (_winch[0]<<4)|0x02,Video_HDelay[hdelay]);
-TW28xx_Video.c (hisharp ver3.x):191:			if(TW28_ReadByte(0, (_winch[1]<<4)|0x02) != Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
-TW28xx_Video.c (hisharp ver3.x):192:				TW28_WriteByte(0, (_winch[1]<<4)|0x02,Video_HDelay[hdelay]);
-TW28xx_Video.c (hisharp ver3.x):201:			if(TW28_ReadByte(0,( _winch[0]<<4)|0x02) != Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
-TW28xx_Video.c (hisharp ver3.x):202:				TW28_WriteByte(0, (_winch[0]<<4)|0x02,Video_HDelay[hdelay]);
-TW28xx_Video.c (hisharp ver3.x):206:			if(TW28_ReadByte(0, (_winch[1]<<4)|0x02) != Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
-TW28xx_Video.c (hisharp ver3.x):207:				TW28_WriteByte(0, (_winch[1]<<4)|0x02,Video_HDelay[hdelay]);
-TW28xx_Video.c (hisharp ver3.x):215:			if(TW28_ReadByte(0, (_winch[0]<<4)|0x02) != Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
-TW28xx_Video.c (hisharp ver3.x):216:				TW28_WriteByte(0, (_winch[0]<<4)|0x02,Video_HDelay[hdelay]);
-TW28xx_Video.c (hisharp ver3.x):220:			if(TW28_ReadByte(0, (_winch[1]<<4)|0x02) != Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
-TW28xx_Video.c (hisharp ver3.x):221:				TW28_WriteByte(0, (_winch[1]<<4)|0x02,Video_HDelay[hdelay]);
-TW28xx_Video.c (hisharp ver3.x):225:			if(TW28_ReadByte(0, (_winch[2]<<4)|0x02) != Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
-TW28xx_Video.c (hisharp ver3.x):226:				TW28_WriteByte(0, (_winch[2]<<4)|0x02,Video_HDelay[hdelay]);
-TW28xx_Video.c (hisharp ver3.x):239:			if(TW28_ReadByte(0, (_winch[0]<<4)|0x02) != Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
-TW28xx_Video.c (hisharp ver3.x):240:				TW28_WriteByte(0, (_winch[0]<<4)|0x02,Video_HDelay[hdelay]);
-TW28xx_Video.c (hisharp ver3.x):244:			if(TW28_ReadByte(0, (_winch[1]<<4)|0x02) != Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
-TW28xx_Video.c (hisharp ver3.x):245:				TW28_WriteByte(0, (_winch[1]<<4)|0x02,Video_HDelay[hdelay]);
-TW28xx_Video.c (hisharp ver3.x):249:			if(TW28_ReadByte(0,( _winch[2]<<4)|0x02) != Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
-TW28xx_Video.c (hisharp ver3.x):250:			TW28_WriteByte(0, (_winch[2]<<4)|0x02,Video_HDelay[hdelay]);
-TW28xx_Video.c (hisharp ver3.x):259:			if(TW28_ReadByte(0, (_winch[0]<<4)|0x02) != Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
-TW28xx_Video.c (hisharp ver3.x):260:				TW28_WriteByte(0, (_winch[0]<<4)|0x02,Video_HDelay[hdelay]);
-TW28xx_Video.c (hisharp ver3.x):264:			if(TW28_ReadByte(0, (_winch[1]<<4)|0x02) != Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
-TW28xx_Video.c (hisharp ver3.x):265:				TW28_WriteByte(0, (_winch[1]<<4)|0x02,Video_HDelay[hdelay]);
-TW28xx_Video.c (hisharp ver3.x):269:			if(TW28_ReadByte(0, (_winch[2]<<4)|0x02) != Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
-TW28xx_Video.c (hisharp ver3.x):270:				TW28_WriteByte(0, (_winch[2]<<4)|0x02,Video_HDelay[hdelay]);
-TW28xx_Video.c (hisharp ver3.x):279:			if(TW28_ReadByte(0, (_winch[0]<<4)|0x02) != Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
-TW28xx_Video.c (hisharp ver3.x):280:				TW28_WriteByte(0, (_winch[0]<<4)|0x02,Video_HDelay[hdelay]);
-TW28xx_Video.c (hisharp ver3.x):284:			if(TW28_ReadByte(0,( _winch[1]<<4)|0x02) != Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
-TW28xx_Video.c (hisharp ver3.x):285:				TW28_WriteByte(0, (_winch[1]<<4)|0x02,Video_HDelay[hdelay]);
-TW28xx_Video.c (hisharp ver3.x):289:			if(TW28_ReadByte(0, (_winch[2]<<4)|0x02) != Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
-TW28xx_Video.c (hisharp ver3.x):290:				TW28_WriteByte(0, (_winch[2]<<4)|0x02,Video_HDelay[hdelay]);
-TW28xx_Video.c (hisharp ver3.x):294:			if(TW28_ReadByte(0, (_winch[3]<<4)|0x02) != Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
-TW28xx_Video.c (hisharp ver3.x):295:				TW28_WriteByte(0, (_winch[3]<<4)|0x02,Video_HDelay[hdelay]);
-TW28xx_Video.c (hisharp ver3.x):383:		if(TW28_ReadByte(0, 0x02) != Video_HDelay[WIN_LEFT+((_chmiro[0]&BIT0)<<1)+SYSTYPE])//Kane @HS 2007 0808 Ver3.4
-TW28xx_Video.c (hisharp ver3.x):384:			TW28_WriteByte(0x00, 0x02, Video_HDelay[WIN_LEFT+((_chmiro[0]&BIT0)<<1)+SYSTYPE]);
-TW28xx_Video.c (hisharp ver3.x):385:		if(TW28_ReadByte(0, 0x12) != Video_HDelay[WIN_RIGHT+((_chmiro[1]&BIT0)<<1)+SYSTYPE])//Kane @HS 2007 0808 Ver3.4
-TW28xx_Video.c (hisharp ver3.x):386:			TW28_WriteByte(0x00, 0x12, Video_HDelay[WIN_RIGHT+((_chmiro[1]&BIT0)<<1)+SYSTYPE]);
-TW28xx_Video.c (hisharp ver3.x):387:		if(TW28_ReadByte(0, 0x22) != Video_HDelay[WIN_LEFT+((_chmiro[2]&BIT0)<<1)+SYSTYPE])//Kane @HS 2007 0808 Ver3.4
-TW28xx_Video.c (hisharp ver3.x):388:			TW28_WriteByte(0x00, 0x22, Video_HDelay[WIN_LEFT+((_chmiro[2]&BIT0)<<1)+SYSTYPE]);
-TW28xx_Video.c (hisharp ver3.x):389:		if(TW28_ReadByte(0, 0x32) != Video_HDelay[WIN_RIGHT+((_chmiro[3]&BIT0)<<1)+SYSTYPE])//Kane @HS 2007 0808 Ver3.4
-TW28xx_Video.c (hisharp ver3.x):390:			TW28_WriteByte(0x00, 0x32, Video_HDelay[WIN_RIGHT+((_chmiro[3]&BIT0)<<1)+SYSTYPE]);
-TW28xx_Video.c (hisharp ver3.x):394:		if(TW28_ReadByte(0, 0x02) != Video_HDelay[0x08+((_chmiro[0]&BIT0)<<1)+SYSTYPE])//William @HS 2007 0829 Ver3.4
-TW28xx_Video.c (hisharp ver3.x):395:			TW28_WriteByte(0x00, 0x02, Video_HDelay[0x08+((_chmiro[0]&BIT0)<<1)+SYSTYPE]);
-TW28xx_Video.c (hisharp ver3.x):399:		if(TW28_ReadByte(0, 0x12) != Video_HDelay[0x08+((_chmiro[1]&BIT0)<<1)+SYSTYPE])//William @HS 2007 0829 Ver3.4
-TW28xx_Video.c (hisharp ver3.x):400:			TW28_WriteByte(0x00, 0x12, Video_HDelay[0x08+((_chmiro[1]&BIT0)<<1)+SYSTYPE]);
-TW28xx_Video.c (hisharp ver3.x):404:		if(TW28_ReadByte(0, 0x22) != Video_HDelay[0x08+((_chmiro[2]&BIT0)<<1)+SYSTYPE])//William @HS 2007 0829 Ver3.4
-TW28xx_Video.c (hisharp ver3.x):405:		TW28_WriteByte(0x00, 0x22, Video_HDelay[0x08+((_chmiro[2]&BIT0)<<1)+SYSTYPE]);
-TW28xx_Video.c (hisharp ver3.x):409:		if(TW28_ReadByte(0, 0x32) !=Video_HDelay[0x08+((_chmiro[3]&BIT0)<<1)+SYSTYPE])//William @HS 2007 0829 Ver3.4
-TW28xx_Video.c (hisharp ver3.x):410:		TW28_WriteByte(0x00, 0x32, Video_HDelay[0x08+((_chmiro[3]&BIT0)<<1)+SYSTYPE]);
-Win_Table.h (hisharp ver3.x):451:code WRITE_REG_DATA Video_HDelayInit[]= {
-Win_Table.h (hisharp ver3.x):477:code unsigned char Video_HDelay[]={	//	だ確 L/R N/M N/P
-Win_Table.h (hisharp ver3.x):522:code unsigned char Video_HDelay[]={	//	だ確 L/R N/M N/P		
+---- BOX_OFFSET_Y Matches (7 in 3 files) ----
+OSDCtrl.c (hisharp ver3.x):271:	_posy += BOX_OFFSET_Y;
+OSDCtrl.c (hisharp ver3.x):316:		_posy += BOX_OFFSET_Y+2;
+OSDCtrl.c (hisharp ver3.x):318:		_posy += BOX_OFFSET_Y;
+OSDCtrl.h (hisharp ver3.x):50:#define BOX_OFFSET_Y	8
+OSD_Graph.c (hisharp ver3.x):106:			_posy += BOX_OFFSET_Y+2;
+OSD_Graph.c (hisharp ver3.x):108:			_posy += BOX_OFFSET_Y-2;		
+OSD_Graph.c (hisharp ver3.x):110:	_posy += BOX_OFFSET_Y;

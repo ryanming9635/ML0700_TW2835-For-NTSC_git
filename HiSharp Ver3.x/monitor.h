@@ -48,7 +48,7 @@ BYTE Asc1Bin(BYTE asc);
 BYTE Asc2Bin( BYTE *s);
 int stricmp(BYTE *ptr1, BYTE *ptr2);
 BYTE RS_ready(void);
-BYTE RS2_ready(void);
+//BYTE RS2_ready(void);
 void DUMP_reg(BYTE page);
 
 

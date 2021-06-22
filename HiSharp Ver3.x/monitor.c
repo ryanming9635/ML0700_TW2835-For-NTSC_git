@@ -81,7 +81,7 @@ extern   BYTE InputSelection;
 extern	      BYTE	DebugLevel;
 //extern  CODE  struct struct_IdName struct_InputSelection[];
 extern 		  bit	NoInitAccess;
- 		  bit	AccessEnable=1;
+ //		  bit	AccessEnable=1;
 extern  BYTE PSW_Flag;
 extern BYTE year1,year2,month,day,hour,minute,second;
 
@@ -109,18 +109,20 @@ extern U8 access;
 //=============================================================================
 //		Serial RX Check 												   
 //=============================================================================
+#if (HS_DEBUG==ON)
 BYTE RS_ready(void)
 {
 	if( RS_in == RS_out ) return 0;
 	else return 1;
 }
-
+#endif
+/*
 BYTE RS2_ready(void)
 {
 	if( RS2_in == RS2_out ) return 0;
 	else return 1;
 }
-
+*/
 //#ifdef Hs_debug
 //=============================================================================
 //		Serial RX														   
@@ -142,6 +144,7 @@ BYTE RS_rx(void)
 	return ret;
 }
 #endif
+/*
 BYTE RS2_rx(void)
 {
 	BYTE ret;
@@ -156,7 +159,7 @@ BYTE RS2_rx(void)
 
 	return ret;
 }
-
+*/
 
 //=============================================================================
 //		Serial TX														   
@@ -174,6 +177,7 @@ void RS_tx(BYTE tx_buf)
 
 }
 #endif
+/*
 void RS2_tx(BYTE tx_buf)
 {
 
@@ -183,18 +187,21 @@ tx_buf=1;
 //while(0 == (USART2->SR&(1<<6)));
 
 }
-
+*/
 //void Loader(BYTE);
 
 //=============================================================================
 //
 //=============================================================================
+#if (HS_DEBUG==ON)
+
 void Prompt(void)
 {
 
 Printf("\r\nMCU_I2C[%02x]>",(WORD)Monitor_I2C);
 
 }
+
 
 void Mon_tx(BYTE ch)
 {
@@ -205,6 +212,7 @@ void Mon_tx(BYTE ch)
 //=============================================================================
 //		Convert ASCII to Binery                                             
 //=============================================================================
+
  DWORD a2i(BYTE *str)
 {
 	 DWORD num=0;
@@ -225,6 +233,7 @@ BYTE Asc1Bin(BYTE asc)
 	
 	return 0;
 }
+
 
 BYTE Asc2Bin(PDATA_P BYTE *s)
 {
@@ -260,6 +269,7 @@ int stricmp(BYTE *ptr1, BYTE *ptr2)
 	}
 	return 0;
 }
+#endif
 
 //=============================================================================
 //
@@ -270,6 +280,8 @@ void SetMonAddress(BYTE addr)
 	MonAddress = addr;
 }
 */
+#if (HS_DEBUG==ON)
+
 void MonReadI2C(void)
 {
 /*
@@ -325,6 +337,7 @@ void MonWriteI2C(void)
 	}
 	*/
 }
+
 
 
 void MonIncDecI2C(BYTE inc)
@@ -397,6 +410,9 @@ BYTE ret;
 	Prompt();
 
 }
+#endif
+
+#if (HS_DEBUG==ON)
 
 void MonDumpI2C(void)
 {
@@ -592,7 +608,7 @@ void MonWriteBit(void)
 		Printf("\r\n<R>%2x[%2x]=%2x", (tWord)Slave, (tWord)MonIndex, (tWord)MonRdata);
 */
 }
-
+#endif
 #if  0// defined( SUPPORT_PC ) || defined( SUPPORT_DTV )
 void PclkAccess(void)
 {
@@ -613,7 +629,7 @@ void PclkAccess(void)
 	if( argc==1)   GetPPF();
 	
 }
-#endif
+
 
 void MonTxDump(void)
 {
@@ -631,10 +647,13 @@ void MonTxDump(void)
 	} while ( count != 0 );
 	*/
 }
+#endif
 
 //=============================================================================
 //			Help Message
 //=============================================================================
+#if (HS_DEBUG==ON)
+
 void MonHelp(void)
 {
 	#if 1
@@ -760,7 +779,7 @@ BYTE MonGetCommand(void)
 	BYTE i, ch;
 	BYTE ret=0;
 
-	if( !RS_ready() ) return 0;
+	if( ! RS_RxReady()/*RS_ready()*/ ) return 0;
 	//#ifdef HS_DEBUG
 	ch = RS_rx();
 	//#endif
@@ -902,11 +921,13 @@ BYTE MonGetCommand(void)
 	}
 }
 
+#endif
+
 //*****************************************************************************
 //				Monitoring Command
 //*****************************************************************************
 //#ifdef  HS_DEBUG
-#ifdef  HS_DEBUG
+#if  (HS_DEBUG==ON)
 void Monitor(void)
 {
 
