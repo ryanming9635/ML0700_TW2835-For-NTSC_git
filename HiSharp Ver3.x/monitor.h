@@ -51,6 +51,7 @@ BYTE RS_ready(void);
 //BYTE RS2_ready(void);
 void DUMP_reg(BYTE page);
 
+void MonIncDecI2C(BYTE inc);
 
 extern void SET_PWM(tByte index, tByte val);
 extern void tp28xx_byte_write (tByte index, tByte val);

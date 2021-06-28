@@ -1,8 +1,10 @@
----- BOX_OFFSET_Y Matches (7 in 3 files) ----
-OSDCtrl.c (hisharp ver3.x):271:	_posy += BOX_OFFSET_Y;
-OSDCtrl.c (hisharp ver3.x):316:		_posy += BOX_OFFSET_Y+2;
-OSDCtrl.c (hisharp ver3.x):318:		_posy += BOX_OFFSET_Y;
-OSDCtrl.h (hisharp ver3.x):50:#define BOX_OFFSET_Y	8
-OSD_Graph.c (hisharp ver3.x):106:			_posy += BOX_OFFSET_Y+2;
-OSD_Graph.c (hisharp ver3.x):108:			_posy += BOX_OFFSET_Y-2;		
-OSD_Graph.c (hisharp ver3.x):110:	_posy += BOX_OFFSET_Y;
+---- TW2837_DEBUG Matches (9 in 5 files) ----
+CommandShell.c (hisharp ver3.x):90:#if (TW2837_DEBUG==ON)
+CommandShell.c (hisharp ver3.x):909:		#if (TW2837_DEBUG==ON)
+Main.c (hisharp ver3.x):64:	#if (TW2837_DEBUG==ON)
+Main.c (hisharp ver3.x):223:#if  (TW2837_DEBUG==ON)
+Printf.c (hisharp ver3.x):249:#if (TW2837_DEBUG==ON)
+Printf.c (hisharp ver3.x):254:#ifdef TW2837_DEBUG
+Printf.c (hisharp ver3.x):343:#if (TW2837_DEBUG==ON)
+Printf.h (hisharp ver3.x):20:#if  1///(TW2837_DEBUG==ON)
+Types.h (hisharp ver3.x):41:#define TW2837_DEBUG	OFF

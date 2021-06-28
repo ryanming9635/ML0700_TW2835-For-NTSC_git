@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   BUSCTRL                                                           06/22/2021 12:23:03 PAGE 1   
+C51 COMPILER V9.60.0.0   BUSCTRL                                                           06/28/2021 14:11:42 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE BUSCTRL
@@ -62,7 +62,7 @@ line level    source
   52          
   53          //  ------------------------------------
   54          //      Function Prototypes
-C51 COMPILER V9.60.0.0   BUSCTRL                                                           06/22/2021 12:23:03 PAGE 2   
+C51 COMPILER V9.60.0.0   BUSCTRL                                                           06/28/2021 14:11:42 PAGE 2   
 
   55          //  ------------------------------------
   56          
@@ -126,7 +126,7 @@ line level    source
               #endif  
  115   1        MDATA = _addr;
  116   1        HALE = 1; 
-C51 COMPILER V9.60.0.0   BUSCTRL                                                           06/22/2021 12:23:03 PAGE 3   
+C51 COMPILER V9.60.0.0   BUSCTRL                                                           06/28/2021 14:11:42 PAGE 3   
 
  117   1        HALE = 0;
  118   1        MDATA = _wdat;
@@ -190,7 +190,7 @@ line level    source
  176   1      
  177   1      #if (TW2837==ON) 
  178   1        HCSB0=0;///1;
-C51 COMPILER V9.60.0.0   BUSCTRL                                                           06/22/2021 12:23:03 PAGE 4   
+C51 COMPILER V9.60.0.0   BUSCTRL                                                           06/28/2021 14:11:42 PAGE 4   
 
  179   1        HCSB1=0;///1;
  180   1      #else 
@@ -254,7 +254,7 @@ line level    source
  238          //  
  239          //  Write Register Address & Data form Table until address=0xFFFF then STOP
  240          //  
-C51 COMPILER V9.60.0.0   BUSCTRL                                                           06/22/2021 12:23:03 PAGE 5   
+C51 COMPILER V9.60.0.0   BUSCTRL                                                           06/28/2021 14:11:42 PAGE 5   
 
  241          void PCT_WriteSTable(U8 _dvc, WRITE_REG_DATA *_tbl_ptr)
  242          {

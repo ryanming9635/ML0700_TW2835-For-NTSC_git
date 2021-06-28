@@ -17,7 +17,7 @@
 
 #define _DEBUG_MESSAGE_COLOR_MESSAGE			OFF//ON
 
-#if 0
+#if  1///(TW2837_DEBUG==ON)
 #define HS_DEBUG   ON
 #else
 #define HS_DEBUG   OFF

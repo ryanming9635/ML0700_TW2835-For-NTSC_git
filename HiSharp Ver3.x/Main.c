@@ -61,7 +61,7 @@
 	sbit osd_chk_flag = commFlag^1;
 	COMMAND_BUFFER RScommand;
 	bit VlossFlag;
-	#if (HS_DEBUG==ON)
+	#if (TW2837_DEBUG==ON)
 	U8 access=1;
 	#endif
 //	------------------------------------
@@ -220,7 +220,7 @@ void main(void)
 //#endif	
 
 	while(1){
-#if (HS_DEBUG==ON)
+#if  (TW2837_DEBUG==ON)
 
 if(access==1)
 {

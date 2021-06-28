@@ -87,7 +87,7 @@
 //	------------------------------------
 	SYS_DATA sysdat;
 	SYS_MESSAGE msg;
-#if (HS_DEBUG==ON)
+#if (TW2837_DEBUG==ON)
 	extern U8 access;
 #endif
 //	extern bit VlossFlag;//ryan@20150318
@@ -906,7 +906,7 @@ U8 PCT_RunCommShell(char *strptr)
 		PCT_SendACK();
 		//printf("Command Shell for HiSharp Disable Scroll!");
 		MoniHSCommVersion();
-		#if (HS_DEBUG==ON)
+		#if (TW2837_DEBUG==ON)
 		if(access==1)
 			{
 			access=0;

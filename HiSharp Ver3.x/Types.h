@@ -38,6 +38,8 @@
 
 #define TW2837 			ON 
 #define TW2837TABLE 		ON
+#define TW2837_DEBUG	OFF
+
 //	------------------------------------
 //		Macro Definitions
 //	------------------------------------ 
