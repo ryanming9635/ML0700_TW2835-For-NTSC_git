@@ -57,6 +57,7 @@ sbit RSTn = P3 ^ 4;
 //			Variables Definitions
 //	------------------------------------
 
+BYTE TW2837IDCheck=FALSE;
 
 //	------------------------------------
 //			Function Prototypes
@@ -84,7 +85,7 @@ void PCT_InitialTW2835(void)
 		Wait_ms(10);
 	}
 	DisUserTimer(USERTMID1);
-	
+	PCT_TW2837IDCheck();
 	PCT_TW2835_Initial();
 	PCT_InitialOSD();
 }
@@ -114,6 +115,19 @@ void PCT_TW2835ResetN(void)
 	RSTn = 1;
 //Kane @HS 2007 0723 Ver3.4<<<<
 }
+// ===========================================================================
+//
+//	TW2837 ID check
+//
+// ===========================================================================
+
+void PCT_TW2837IDCheck(void)
+{
+	if( (TW28_ReadByte(0, 0xFE)&0x30) == 0x30) 
+		TW2837IDCheck=TRUE;
+	else 
+		TW2837IDCheck=FALSE;
+}
 
 // ===========================================================================
 //
@@ -124,36 +138,26 @@ void PCT_TW2835_Initial(void)
 	register U16 offset;
 	
 	offset = SYSTYPE * 256;	
+if(TW2837IDCheck==TRUE)
+{
 
-#if (TW2837TABLE==ON)
+	TW28_WriteTable(0x00, 0x00, TW2837_Page0+offset, ((16*5)+8));
 
-	TW28_WriteTable(0x00, 0x00, TW2835_Page0+offset, ((16*5)+8));
-
-	TW28_WriteTable(0x00, 0x60, (TW2835_Page0+offset+0x60), (16));
-	TW28_WriteTable(0x00, 0x70, (TW2835_Page0+offset+0x70), (4));
+	TW28_WriteTable(0x00, 0x60, (TW2837_Page0+offset+0x60), (16));
+	TW28_WriteTable(0x00, 0x70, (TW2837_Page0+offset+0x70), (4));
 	
-	TW28_WriteTable(0x00, 0x80, (TW2835_Page0+offset+0x80), (16*5));
+	TW28_WriteTable(0x00, 0x80, (TW2837_Page0+offset+0x80), (16*5));
 
-	TW28_WriteTable(0x01, 0x00, TW2835_Page1+offset, 160);
+	TW28_WriteTable(0x01, 0x00, TW2837_Page1+offset, 160);
 
-	TW28_WriteTable(0x01, 0x30, TW2835_Page1+offset+0x30, 32);
+	TW28_WriteTable(0x01, 0x30, TW2837_Page1+offset+0x30, 32);
 	
-	TW28_WriteTable(0x01, 0xA0, TW2835_Page1+offset+0xA0, 16);
+	TW28_WriteTable(0x01, 0xA0, TW2837_Page1+offset+0xA0, 16);
 
-#else
-	TW28_WriteTable(0x00, 0x00, TW2835_Page0+offset, 192);
-	TW28_WriteTable(0x01, 0x00, TW2835_Page1+offset, 160);
 
-	TW28_WriteTable(0x01, 0x30, TW2835_Page1+offset+0x30, 32);
-
-	TW28_WriteTable(0x01, 0xA0, TW2835_Page1+offset+0xA0, 16);
-#endif
-
-#if (TW2837TABLE==ON)
-
-	TW28_WriteTable(0x02, 0x10, TW2835_Page2, (16*3));
-	TW28_WriteTable(0x02, 0x50, TW2835_Page2+0x30, (16*1));
-	TW28_WriteTable(0x02, 0x60, TW2835_Page2+0x40, (16*4));
+	TW28_WriteTable(0x02, 0x10, TW2837_Page2, (16*3));
+	TW28_WriteTable(0x02, 0x50, TW2837_Page2+0x30, (16*1));
+	TW28_WriteTable(0x02, 0x60, TW2837_Page2+0x40, (16*4));
 
 	if(SYSTYPE == VDO_NTSC){
 		TW28_WriteTable(DVC_PG1,0x30,tbl_ntsc_pg1_pic_qd,16);		//... normal quad
@@ -168,7 +172,21 @@ void PCT_TW2835_Initial(void)
 		TW28_WriteTable(DVC_PG1,0xa0,tbl_pal_pg1_enc,16);	
 		TW28_WriteByte(DVC_PG1,0x00,0x80);
 	}
-#endif
+
+}
+else
+{
+		TW28_WriteTable(0x00, 0x00, TW2835_Page0+offset, 192);
+		TW28_WriteTable(0x01, 0x00, TW2835_Page1+offset, 160);
+	
+		TW28_WriteTable(0x01, 0x30, TW2835_Page1+offset+0x30, 32);
+	
+		TW28_WriteTable(0x01, 0xA0, TW2835_Page1+offset+0xA0, 16);
+
+}
+
+
+
 }
 
 // ===========================================================================
@@ -180,12 +198,27 @@ void PCT_ChangeSystemType(U8 _sys)
 	register U16 offset;
 	
 	offset = _sys * 256;
-	TW28_WriteTable(0x00, 0x00, TW2835_Page0+offset+0x00, 64);
 
-	TW28_WriteTable(0x01, 0x30, TW2835_Page1+offset+0x30, 32);
+	if(TW2837IDCheck==TRUE)
+	{	
+		TW28_WriteTable(0x00, 0x00, TW2837_Page0+offset+0x00, 64);
 
-	TW28_WriteTable(0x01, 0x00, TW2835_Page1+offset+0x00, 1);
-	TW28_WriteTable(0x01, 0xA7, TW2835_Page1+offset+0xA7, 3);
+		TW28_WriteTable(0x01, 0x30, TW2837_Page1+offset+0x30, 32);
+
+		TW28_WriteTable(0x01, 0x00, TW2837_Page1+offset+0x00, 1);
+		TW28_WriteTable(0x01, 0xA7, TW2837_Page1+offset+0xA7, 3);
+	}
+	else
+	{
+		TW28_WriteTable(0x00, 0x00, TW2835_Page0+offset+0x00, 64);
+		
+			TW28_WriteTable(0x01, 0x30, TW2835_Page1+offset+0x30, 32);
+		
+			TW28_WriteTable(0x01, 0x00, TW2835_Page1+offset+0x00, 1);
+			TW28_WriteTable(0x01, 0xA7, TW2835_Page1+offset+0xA7, 3);
+
+	}
+
 }
 
 // ===========================================================================

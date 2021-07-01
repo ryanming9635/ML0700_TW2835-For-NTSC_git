@@ -62,6 +62,9 @@ code U16 YWinAttr_RegAddr[]	= {0x0161, 0x0164, 0x0167, 0x016A};
 
 
 extern BYTE xdata Original_selwintype;//Kane @HS 2007 0724 Ver3.4
+
+extern BYTE TW2837IDCheck;
+
 //	------------------------------------
 //			Function Prototypes
 //	------------------------------------
@@ -159,7 +162,12 @@ void PCT_SetVideoHDelay(U8 _typ, PU8 _winch, PU8 _cattr)
 //	if(Original_selwintype == _typ )//Kane @HS 2007 0724 Ver3.4
 //		return;
 ////Kane @HS 2007 0806 Ver3.4<<<<
+	BYTE* ptr_Video_HDelay;
 
+if(TW2837IDCheck==TRUE)
+	ptr_Video_HDelay=&Video_HDelay37[0];
+else
+	ptr_Video_HDelay=&Video_HDelay[0];
 
 	switch(_typ){
 		case VMIX_TYPE_N11:
@@ -174,8 +182,8 @@ void PCT_SetVideoHDelay(U8 _typ, PU8 _winch, PU8 _cattr)
 				hdelay |= WIN_RIGHT;	// Signal Channel 1,3
 			else
 				hdelay |= WIN_LEFT;		// Signal Channel 0,2
-			if(TW28_ReadByte(0, (_winch[0]<<4)|0x02) != Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
-				TW28_WriteByte(0, (_winch[0]<<4)|0x02,Video_HDelay[hdelay]);
+			if(TW28_ReadByte(0, (_winch[0]<<4)|0x02) != ptr_Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
+				TW28_WriteByte(0, (_winch[0]<<4)|0x02,ptr_Video_HDelay[hdelay]);
 			break;
 
 		case VMIX_TYPE_N21://andy
@@ -183,13 +191,13 @@ void PCT_SetVideoHDelay(U8 _typ, PU8 _winch, PU8 _cattr)
 			// Type N,L,R
 			hdelay = 0x08|WIN_RIGHT|SYSTYPE;	// WIN_RIGHT for Y Channel LEFT
 			hdelay |= (_cattr[0]&0x01)<<1;
-			if(TW28_ReadByte(0, (_winch[0]<<4)|0x02) != Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
-				TW28_WriteByte(0, (_winch[0]<<4)|0x02,Video_HDelay[hdelay]);
+			if(TW28_ReadByte(0, (_winch[0]<<4)|0x02) != ptr_Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
+				TW28_WriteByte(0, (_winch[0]<<4)|0x02,ptr_Video_HDelay[hdelay]);
 			// LEFT 
 			hdelay = 0x08|WIN_LEFT|SYSTYPE;	// WIN_RIGHT for Y Channel LEFT
 			hdelay |= (_cattr[1]&0x01)<<1;
-			if(TW28_ReadByte(0, (_winch[1]<<4)|0x02) != Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
-				TW28_WriteByte(0, (_winch[1]<<4)|0x02,Video_HDelay[hdelay]);
+			if(TW28_ReadByte(0, (_winch[1]<<4)|0x02) != ptr_Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
+				TW28_WriteByte(0, (_winch[1]<<4)|0x02,ptr_Video_HDelay[hdelay]);
 			
 			break;
 
@@ -198,13 +206,13 @@ void PCT_SetVideoHDelay(U8 _typ, PU8 _winch, PU8 _cattr)
 			// LEFT 
 			hdelay = WIN_LEFT|SYSTYPE;
 			hdelay |= (_cattr[0]&0x01)<<1;
-			if(TW28_ReadByte(0,( _winch[0]<<4)|0x02) != Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
-				TW28_WriteByte(0, (_winch[0]<<4)|0x02,Video_HDelay[hdelay]);
+			if(TW28_ReadByte(0,( _winch[0]<<4)|0x02) != ptr_Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
+				TW28_WriteByte(0, (_winch[0]<<4)|0x02,ptr_Video_HDelay[hdelay]);
 			// RIGHT
 			hdelay = WIN_RIGHT|SYSTYPE;
 			hdelay |= (_cattr[1]&0x01)<<1;
-			if(TW28_ReadByte(0, (_winch[1]<<4)|0x02) != Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
-				TW28_WriteByte(0, (_winch[1]<<4)|0x02,Video_HDelay[hdelay]);
+			if(TW28_ReadByte(0, (_winch[1]<<4)|0x02) != ptr_Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
+				TW28_WriteByte(0, (_winch[1]<<4)|0x02,ptr_Video_HDelay[hdelay]);
 			break;
 			
 		case VMIX_TYPE_N31:
@@ -212,18 +220,18 @@ void PCT_SetVideoHDelay(U8 _typ, PU8 _winch, PU8 _cattr)
 			// Type N,L,R
 			hdelay = 0x08|WIN_RIGHT|SYSTYPE;	// WIN_RIGHT for Y Channel LEFT
 			hdelay |= (_cattr[0]&0x01)<<1;
-			if(TW28_ReadByte(0, (_winch[0]<<4)|0x02) != Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
-				TW28_WriteByte(0, (_winch[0]<<4)|0x02,Video_HDelay[hdelay]);
+			if(TW28_ReadByte(0, (_winch[0]<<4)|0x02) != ptr_Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
+				TW28_WriteByte(0, (_winch[0]<<4)|0x02,ptr_Video_HDelay[hdelay]);
 			// LEFT 
 			hdelay = WIN_LEFT|SYSTYPE;
 			hdelay |= (_cattr[1]&0x01)<<1;
-			if(TW28_ReadByte(0, (_winch[1]<<4)|0x02) != Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
-				TW28_WriteByte(0, (_winch[1]<<4)|0x02,Video_HDelay[hdelay]);
+			if(TW28_ReadByte(0, (_winch[1]<<4)|0x02) != ptr_Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
+				TW28_WriteByte(0, (_winch[1]<<4)|0x02,ptr_Video_HDelay[hdelay]);
 			// RIGHT
 			hdelay = WIN_RIGHT|SYSTYPE;
 			hdelay |= (_cattr[2]&0x01)<<1;
-			if(TW28_ReadByte(0, (_winch[2]<<4)|0x02) != Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
-				TW28_WriteByte(0, (_winch[2]<<4)|0x02,Video_HDelay[hdelay]);
+			if(TW28_ReadByte(0, (_winch[2]<<4)|0x02) != ptr_Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
+				TW28_WriteByte(0, (_winch[2]<<4)|0x02,ptr_Video_HDelay[hdelay]);
 			break;
 
 		case VMIX_TYPE_N32:
@@ -236,18 +244,18 @@ void PCT_SetVideoHDelay(U8 _typ, PU8 _winch, PU8 _cattr)
 			// LEFT 
 			hdelay = WIN_LEFT|SYSTYPE;
 			hdelay |= (_cattr[0]&0x01)<<1;
-			if(TW28_ReadByte(0, (_winch[0]<<4)|0x02) != Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
-				TW28_WriteByte(0, (_winch[0]<<4)|0x02,Video_HDelay[hdelay]);
+			if(TW28_ReadByte(0, (_winch[0]<<4)|0x02) != ptr_Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
+				TW28_WriteByte(0, (_winch[0]<<4)|0x02,ptr_Video_HDelay[hdelay]);
 			// RIGHT
 			hdelay = WIN_RIGHT|SYSTYPE;
 			hdelay |= (_cattr[1]&0x01)<<1;
-			if(TW28_ReadByte(0, (_winch[1]<<4)|0x02) != Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
-				TW28_WriteByte(0, (_winch[1]<<4)|0x02,Video_HDelay[hdelay]);
+			if(TW28_ReadByte(0, (_winch[1]<<4)|0x02) != ptr_Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
+				TW28_WriteByte(0, (_winch[1]<<4)|0x02,ptr_Video_HDelay[hdelay]);
 			// RIGHT
 			hdelay = WIN_RIGHT|SYSTYPE;
 			hdelay |= (_cattr[2]&0x01)<<1;
-			if(TW28_ReadByte(0,( _winch[2]<<4)|0x02) != Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
-			TW28_WriteByte(0, (_winch[2]<<4)|0x02,Video_HDelay[hdelay]);
+			if(TW28_ReadByte(0,( _winch[2]<<4)|0x02) != ptr_Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
+			TW28_WriteByte(0, (_winch[2]<<4)|0x02,ptr_Video_HDelay[hdelay]);
 			break;
 
 		case VMIX_TYPE_N34:
@@ -256,18 +264,18 @@ void PCT_SetVideoHDelay(U8 _typ, PU8 _winch, PU8 _cattr)
 			// LEFT 
 			hdelay = WIN_LEFT|SYSTYPE;
 			hdelay |= (_cattr[0]&0x01)<<1;
-			if(TW28_ReadByte(0, (_winch[0]<<4)|0x02) != Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
-				TW28_WriteByte(0, (_winch[0]<<4)|0x02,Video_HDelay[hdelay]);
+			if(TW28_ReadByte(0, (_winch[0]<<4)|0x02) != ptr_Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
+				TW28_WriteByte(0, (_winch[0]<<4)|0x02,ptr_Video_HDelay[hdelay]);
 			// RIGHT
 			hdelay = WIN_RIGHT|SYSTYPE;
 			hdelay |= (_cattr[1]&0x01)<<1;
-			if(TW28_ReadByte(0, (_winch[1]<<4)|0x02) != Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
-				TW28_WriteByte(0, (_winch[1]<<4)|0x02,Video_HDelay[hdelay]);
+			if(TW28_ReadByte(0, (_winch[1]<<4)|0x02) != ptr_Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
+				TW28_WriteByte(0, (_winch[1]<<4)|0x02,ptr_Video_HDelay[hdelay]);
 			//Left
 			hdelay = WIN_LEFT|SYSTYPE;
 			hdelay |= (_cattr[2]&0x01)<<1;
-			if(TW28_ReadByte(0, (_winch[2]<<4)|0x02) != Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
-				TW28_WriteByte(0, (_winch[2]<<4)|0x02,Video_HDelay[hdelay]);
+			if(TW28_ReadByte(0, (_winch[2]<<4)|0x02) != ptr_Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
+				TW28_WriteByte(0, (_winch[2]<<4)|0x02,ptr_Video_HDelay[hdelay]);
 			break;
 			
 		case VMIX_TYPE_N41:
@@ -276,23 +284,23 @@ void PCT_SetVideoHDelay(U8 _typ, PU8 _winch, PU8 _cattr)
 			// LEFT 
 			hdelay = WIN_LEFT|SYSTYPE;
 			hdelay |= (_cattr[0]&0x01)<<1;
-			if(TW28_ReadByte(0, (_winch[0]<<4)|0x02) != Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
-				TW28_WriteByte(0, (_winch[0]<<4)|0x02,Video_HDelay[hdelay]);
+			if(TW28_ReadByte(0, (_winch[0]<<4)|0x02) != ptr_Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
+				TW28_WriteByte(0, (_winch[0]<<4)|0x02,ptr_Video_HDelay[hdelay]);
 			// RIGHT
 			hdelay = WIN_RIGHT|SYSTYPE;
 			hdelay |= (_cattr[1]&0x01)<<1;
-			if(TW28_ReadByte(0,( _winch[1]<<4)|0x02) != Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
-				TW28_WriteByte(0, (_winch[1]<<4)|0x02,Video_HDelay[hdelay]);
+			if(TW28_ReadByte(0,( _winch[1]<<4)|0x02) != ptr_Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
+				TW28_WriteByte(0, (_winch[1]<<4)|0x02,ptr_Video_HDelay[hdelay]);
 			// Left
 			hdelay = WIN_LEFT|SYSTYPE;
 			hdelay |= (_cattr[2]&0x01)<<1;
-			if(TW28_ReadByte(0, (_winch[2]<<4)|0x02) != Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
-				TW28_WriteByte(0, (_winch[2]<<4)|0x02,Video_HDelay[hdelay]);
+			if(TW28_ReadByte(0, (_winch[2]<<4)|0x02) != ptr_Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
+				TW28_WriteByte(0, (_winch[2]<<4)|0x02,ptr_Video_HDelay[hdelay]);
 			// RIGHT
 			hdelay = WIN_RIGHT|SYSTYPE;
 			hdelay |= (_cattr[3]&0x01)<<1;
-			if(TW28_ReadByte(0, (_winch[3]<<4)|0x02) != Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
-				TW28_WriteByte(0, (_winch[3]<<4)|0x02,Video_HDelay[hdelay]);
+			if(TW28_ReadByte(0, (_winch[3]<<4)|0x02) != ptr_Video_HDelay[hdelay])//Kane @HS 2007 0808 Ver3.4
+				TW28_WriteByte(0, (_winch[3]<<4)|0x02,ptr_Video_HDelay[hdelay]);
 			break;
 
 		default :

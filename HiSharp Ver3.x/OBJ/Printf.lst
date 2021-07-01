@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   PRINTF                                                            06/28/2021 13:54:17 PAGE 1   
+C51 COMPILER V9.60.0.0   PRINTF                                                            07/01/2021 11:38:19 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE PRINTF
@@ -62,7 +62,7 @@ line level    source
   52          "\033[0m",
   53          "\033[0;31m",
   54          "\033[0;32m",
-C51 COMPILER V9.60.0.0   PRINTF                                                            06/28/2021 13:54:17 PAGE 2   
+C51 COMPILER V9.60.0.0   PRINTF                                                            07/01/2021 11:38:19 PAGE 2   
 
   55          "\033[0;33m",
   56          "\033[0;34m",
@@ -126,7 +126,7 @@ line level    source
  114   2          //----- Get char(B) / int / long(L) ----------------
  115   2      
  116   2          fl_len = 2;
-C51 COMPILER V9.60.0.0   PRINTF                                                            06/28/2021 13:54:17 PAGE 3   
+C51 COMPILER V9.60.0.0   PRINTF                                                            07/01/2021 11:38:19 PAGE 3   
 
  117   2      
  118   2          switch(ch) {
@@ -190,7 +190,7 @@ line level    source
  176   4      
  177   4                value = value % (mask);
  178   4                mask = mask / 10;
-C51 COMPILER V9.60.0.0   PRINTF                                                            06/28/2021 13:54:17 PAGE 4   
+C51 COMPILER V9.60.0.0   PRINTF                                                            07/01/2021 11:38:19 PAGE 4   
 
  179   4                
  180   4                if( mask==0 )
@@ -254,7 +254,7 @@ line level    source
  238          //===========================================================================//
  239          //va_list ap;
  240          
-C51 COMPILER V9.60.0.0   PRINTF                                                            06/28/2021 13:54:17 PAGE 5   
+C51 COMPILER V9.60.0.0   PRINTF                                                            07/01/2021 11:38:19 PAGE 5   
 
  241          void Printf( const char CODE_P *fmt, ... )
  242          {
@@ -318,7 +318,7 @@ line level    source
                 va_list ap;
               
                 if( DebugLevel >= DEBUG_ERR ) {
-C51 COMPILER V9.60.0.0   PRINTF                                                            06/28/2021 13:54:17 PAGE 6   
+C51 COMPILER V9.60.0.0   PRINTF                                                            07/01/2021 11:38:19 PAGE 6   
 
                   va_start(ap, fmt);
                   DoPrint( fmt, ap );
@@ -382,7 +382,7 @@ line level    source
                   DEBUG_MESSAGE( _PrintColor[PRINT_COLOR_BLACK]);
                     }
                   #else
-C51 COMPILER V9.60.0.0   PRINTF                                                            06/28/2021 13:54:17 PAGE 7   
+C51 COMPILER V9.60.0.0   PRINTF                                                            07/01/2021 11:38:19 PAGE 7   
 
  365   1            va_list ap;
  366   1            va_start(ap, Message);
