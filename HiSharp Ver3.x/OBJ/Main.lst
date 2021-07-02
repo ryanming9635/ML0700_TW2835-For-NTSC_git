@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   MAIN                                                              07/01/2021 14:04:14 PAGE 1   
+C51 COMPILER V9.60.0.0   MAIN                                                              07/02/2021 11:29:03 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
@@ -62,7 +62,7 @@ line level    source
   52          //  ------------------------------------
   53          
   54          
-C51 COMPILER V9.60.0.0   MAIN                                                              07/01/2021 14:04:14 PAGE 2   
+C51 COMPILER V9.60.0.0   MAIN                                                              07/02/2021 11:29:03 PAGE 2   
 
   55          //  ------------------------------------
   56          //      Variables Definitions
@@ -126,7 +126,7 @@ line level    source
  114   1        puts("\r\n");                   
  115   1      }
  116          
-C51 COMPILER V9.60.0.0   MAIN                                                              07/01/2021 14:04:14 PAGE 3   
+C51 COMPILER V9.60.0.0   MAIN                                                              07/02/2021 11:29:03 PAGE 3   
 
  117          // ===========================================================================
  118          //
@@ -190,7 +190,7 @@ line level    source
  176   1      }
  177          
  178          void Wait_ms(U16 Tms)
-C51 COMPILER V9.60.0.0   MAIN                                                              07/01/2021 14:04:14 PAGE 4   
+C51 COMPILER V9.60.0.0   MAIN                                                              07/02/2021 11:29:03 PAGE 4   
 
  179          {
  180   1      #if (TW2835_MCU == TW8806_MODEL_WINBOND)  //Pinchi 20150325 add
@@ -254,7 +254,7 @@ line level    source
  238   2      if(RScommand.commFlage == true) PCT_RunCommShell(RScommand.commBuf); 
  239   2      if(RScommand.commFlage == true) ResetCommSell(); 
  240   2      
-C51 COMPILER V9.60.0.0   MAIN                                                              07/01/2021 14:04:14 PAGE 5   
+C51 COMPILER V9.60.0.0   MAIN                                                              07/02/2021 11:29:03 PAGE 5   
 
  241   2      #endif
  242   2        /*
@@ -318,7 +318,7 @@ line level    source
                         // This bit doubles the baud rate
               #endif
  302   1      
-C51 COMPILER V9.60.0.0   MAIN                                                              07/01/2021 14:04:14 PAGE 6   
+C51 COMPILER V9.60.0.0   MAIN                                                              07/02/2021 11:29:03 PAGE 6   
 
  303   1        PSW  = 0x00;  // Set Program state Register
  304   1        TMOD = 0x21;  // Set Timer MODE Register

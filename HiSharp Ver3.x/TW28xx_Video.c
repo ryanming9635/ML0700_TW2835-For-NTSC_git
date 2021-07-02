@@ -84,15 +84,43 @@ U8 PCT_DetectVideoFormat(U8 _ch)
 #if 1
 	tmpSta = 0; 
 
-	if( (TW28_ReadByte(0, SENSORCHANNEL<<4)&0x0F) == 0x0F) 
-		tmpSta = TW28_ReadByte(0, _ch << 4);
+	if(TW2837IDCheck==TRUE)
+		{
+	if( (TW28_ReadByte(0, SENSORCHANNEL<<4)&0xC0) == 0x40) 
+		{
+		tmpSta = TW28_ReadByte(0, (_ch << 4)|0x0E);
+		}
 
 	if(tmpSta == 0)
 		return NONE_SYSTEM;
 
-	tmpSta &= 0xE0;
-	tmpSta >>= 5;
-	return (tmpSta>3)  ? NTSC: PAL; 
+	tmpSta &= 0x70;
+	tmpSta >>= 4;
+
+	if((tmpSta==0)||(tmpSta==3))
+		{
+		return NTSC;
+		}
+	else
+		{
+		return PAL;
+			}
+	
+	//return ((tmpSta==0)||(tmpSta==3))  ? NTSC: PAL; 
+		}
+	else
+		{
+		if( (TW28_ReadByte(0, SENSORCHANNEL<<4)&0x0F) == 0x0F) 
+			tmpSta = TW28_ReadByte(0, _ch << 4);
+		
+		if(tmpSta == 0)
+			return NONE_SYSTEM;
+		
+		tmpSta &= 0xE0;
+		tmpSta >>= 5;
+		return (tmpSta>3)  ? NTSC: PAL; 
+
+		}
 #else
 //	DELAY_FOR(150);
 	tmpSta = TW28_ReadByte(0, _ch << 4);

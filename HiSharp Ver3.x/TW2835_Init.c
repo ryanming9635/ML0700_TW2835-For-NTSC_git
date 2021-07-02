@@ -77,15 +77,33 @@ void PCT_InitialTW2835(void)
 
 	// Waitting Color Lock
 	EnUserTimer(USERTMID1,10);
+
+	PCT_TW2837IDCheck();
+
 	while(USERTMVAL1!=1) {
-		if( (TW28_ReadByte(0, SENSORCHANNEL<<4)&0x0F) == 0x0F) {
+	
+		if(TW2837IDCheck==TRUE)
+			{
+			Wait_ms(10);
+
+			if( (TW28_ReadByte(0, SENSORCHANNEL<<4)&0xC0) == 0x40) {
 			SYSTYPE = PCT_DetectVideoFormat(SENSORCHANNEL);
 			break;
-		}
+			}
+		
+			}
+		else
+			{
+				if( (TW28_ReadByte(0, SENSORCHANNEL<<4)&0x0F) == 0x0F) {
+				SYSTYPE = PCT_DetectVideoFormat(SENSORCHANNEL);
+				break;
+				}
+
+			}
 		Wait_ms(10);
 	}
 	DisUserTimer(USERTMID1);
-	PCT_TW2837IDCheck();
+	
 	PCT_TW2835_Initial();
 	PCT_InitialOSD();
 }
