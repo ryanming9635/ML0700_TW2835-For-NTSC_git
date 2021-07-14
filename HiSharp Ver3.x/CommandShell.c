@@ -72,7 +72,7 @@
 		#define VERSION "334"
 		#endif
 	#else
-	#define VERSION "336"
+	#define VERSION "337"
 	#endif
 #endif
 

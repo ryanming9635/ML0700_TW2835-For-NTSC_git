@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   MAIN                                                              07/02/2021 11:29:03 PAGE 1   
+C51 COMPILER V9.60.0.0   MAIN                                                              07/14/2021 15:23:06 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE MAIN
@@ -62,7 +62,7 @@ line level    source
   52          //  ------------------------------------
   53          
   54          
-C51 COMPILER V9.60.0.0   MAIN                                                              07/02/2021 11:29:03 PAGE 2   
+C51 COMPILER V9.60.0.0   MAIN                                                              07/14/2021 15:23:06 PAGE 2   
 
   55          //  ------------------------------------
   56          //      Variables Definitions
@@ -74,8 +74,8 @@ line level    source
   62            COMMAND_BUFFER RScommand;
   63            bit VlossFlag;
   64            #if (TW2837_DEBUG==ON)
-                U8 access=1;
-                #endif
+  65            U8 access=1;
+  66            #endif
   67          //  ------------------------------------
   68          //      Function Prototypes
   69          //  ------------------------------------
@@ -126,7 +126,7 @@ line level    source
  114   1        puts("\r\n");                   
  115   1      }
  116          
-C51 COMPILER V9.60.0.0   MAIN                                                              07/02/2021 11:29:03 PAGE 3   
+C51 COMPILER V9.60.0.0   MAIN                                                              07/14/2021 15:23:06 PAGE 3   
 
  117          // ===========================================================================
  118          //
@@ -190,7 +190,7 @@ line level    source
  176   1      }
  177          
  178          void Wait_ms(U16 Tms)
-C51 COMPILER V9.60.0.0   MAIN                                                              07/02/2021 11:29:03 PAGE 4   
+C51 COMPILER V9.60.0.0   MAIN                                                              07/14/2021 15:23:06 PAGE 4   
 
  179          {
  180   1      #if (TW2835_MCU == TW8806_MODEL_WINBOND)  //Pinchi 20150325 add
@@ -237,26 +237,26 @@ line level    source
  221   1      
  222   1        while(1){
  223   2      #if  (TW2837_DEBUG==ON)
+ 224   2      
+ 225   2      if(access==1)
+ 226   2      {
+ 227   3        CommandShell();
+ 228   3        if(RScommand.commFlage == true) PCT_RunCommShell(RScommand.commBuf); 
+ 229   3        if(RScommand.commFlage == true) ResetCommSell(); 
+ 230   3      }
+ 231   2      else 
+ 232   2      
+ 233   2        {
+ 234   3        while( RS_RxReady())  Monitor();  
+ 235   3        }
+ 236   2      #else
+              CommandShell();
+              if(RScommand.commFlage == true) PCT_RunCommShell(RScommand.commBuf); 
+              if(RScommand.commFlage == true) ResetCommSell(); 
               
-              if(access==1)
-              {
-                CommandShell();
-                if(RScommand.commFlage == true) PCT_RunCommShell(RScommand.commBuf); 
-                if(RScommand.commFlage == true) ResetCommSell(); 
-              }
-              else 
-              
-                {
-                while( RS_RxReady())  Monitor();  
-                }
-              #else
- 237   2      CommandShell();
- 238   2      if(RScommand.commFlage == true) PCT_RunCommShell(RScommand.commBuf); 
- 239   2      if(RScommand.commFlage == true) ResetCommSell(); 
- 240   2      
-C51 COMPILER V9.60.0.0   MAIN                                                              07/02/2021 11:29:03 PAGE 5   
+C51 COMPILER V9.60.0.0   MAIN                                                              07/14/2021 15:23:06 PAGE 5   
 
- 241   2      #endif
+              #endif
  242   2        /*
  243   2        val=TW28_ReadByte(0x00,0x30);
  244   2        if(val==0)
@@ -318,7 +318,7 @@ line level    source
                         // This bit doubles the baud rate
               #endif
  302   1      
-C51 COMPILER V9.60.0.0   MAIN                                                              07/02/2021 11:29:03 PAGE 6   
+C51 COMPILER V9.60.0.0   MAIN                                                              07/14/2021 15:23:06 PAGE 6   
 
  303   1        PSW  = 0x00;  // Set Program state Register
  304   1        TMOD = 0x21;  // Set Timer MODE Register
@@ -349,9 +349,9 @@ line level    source
 
 
 MODULE INFORMATION:   STATIC OVERLAYABLE
-   CODE SIZE        =    487    ----
+   CODE SIZE        =    508    ----
    CONSTANT SIZE    =     23    ----
-   XDATA SIZE       =     45      13
+   XDATA SIZE       =     46      13
    PDATA SIZE       =   ----    ----
    DATA SIZE        =      1       2
    IDATA SIZE       =   ----    ----

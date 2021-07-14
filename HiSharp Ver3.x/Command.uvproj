@@ -436,6 +436,16 @@
               <FileType>1</FileType>
               <FilePath>.\TW2835_Init.c</FilePath>
             </File>
+            <File>
+              <FileName>monitor.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\monitor.c</FilePath>
+            </File>
+            <File>
+              <FileName>Printf.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Printf.c</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>
