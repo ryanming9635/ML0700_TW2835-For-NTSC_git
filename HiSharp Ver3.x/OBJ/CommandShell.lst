@@ -1,4 +1,4 @@
-C51 COMPILER V9.60.0.0   COMMANDSHELL                                                      07/14/2021 15:23:06 PAGE 1   
+C51 COMPILER V9.60.0.0   COMMANDSHELL                                                      07/16/2021 11:15:07 PAGE 1   
 
 
 C51 COMPILER V9.60.0.0, COMPILATION OF MODULE COMMANDSHELL
@@ -62,7 +62,7 @@ line level    source
   52          //      Macro Definitions
   53          //  ------------------------------------ 
   54          #define WINCH     sysdat.channel_link
-C51 COMPILER V9.60.0.0   COMMANDSHELL                                                      07/14/2021 15:23:06 PAGE 2   
+C51 COMPILER V9.60.0.0   COMMANDSHELL                                                      07/16/2021 11:15:07 PAGE 2   
 
   55          #define RECWINTYPE  sysdat.video_mix_type
   56          #define RECLKTP     sysdat.link_type
@@ -126,7 +126,7 @@ line level    source
  114   1        *tagStr = *sourceStr;
  115   1        (*sourceStr)++;
  116   1        while(1) {
-C51 COMPILER V9.60.0.0   COMMANDSHELL                                                      07/14/2021 15:23:06 PAGE 3   
+C51 COMPILER V9.60.0.0   COMMANDSHELL                                                      07/16/2021 11:15:07 PAGE 3   
 
  117   2          if( **sourceStr==' ' ) {
  118   3            **sourceStr = '\0';
@@ -190,7 +190,7 @@ line level    source
  176          // ***************************************************************************
  177          //
  178          // This is to communicate with PC AP 
-C51 COMPILER V9.60.0.0   COMMANDSHELL                                                      07/14/2021 15:23:06 PAGE 4   
+C51 COMPILER V9.60.0.0   COMMANDSHELL                                                      07/16/2021 11:15:07 PAGE 4   
 
  179          //
  180          void MoniReadPageBuffer(PCHAR szParam)
@@ -254,7 +254,7 @@ line level    source
  238   1        data U8 _dev=0;
  239   1        data U8 _pg=0;
  240   1        data U8 _addr=0;
-C51 COMPILER V9.60.0.0   COMMANDSHELL                                                      07/14/2021 15:23:06 PAGE 5   
+C51 COMPILER V9.60.0.0   COMMANDSHELL                                                      07/16/2021 11:15:07 PAGE 5   
 
  241   1        data U8 _rdat=0;
  242   1        
@@ -318,7 +318,7 @@ line level    source
  300   2          PCT_AudioMixCtrl(0, selch0, valch0);
  301   2          PCT_AudioMixCtrl(0, selch1, valch1);
  302   2          PCT_AudioMixCtrl(0, selch2, valch2);
-C51 COMPILER V9.60.0.0   COMMANDSHELL                                                      07/14/2021 15:23:06 PAGE 6   
+C51 COMPILER V9.60.0.0   COMMANDSHELL                                                      07/16/2021 11:15:07 PAGE 6   
 
  303   2          PCT_AudioMixCtrl(0, selch3, valch3);
  304   2      
@@ -382,7 +382,7 @@ line level    source
  362   2          PCT_AudioGainCtrl(0, selch0, ch0val);
  363   2          PCT_AudioGainCtrl(0, selch1, ch1val);
  364   2          break;
-C51 COMPILER V9.60.0.0   COMMANDSHELL                                                      07/14/2021 15:23:06 PAGE 7   
+C51 COMPILER V9.60.0.0   COMMANDSHELL                                                      07/16/2021 11:15:07 PAGE 7   
 
  365   2        
  366   2        case 3:
@@ -446,7 +446,7 @@ line level    source
  424   2          do {
  425   3            printf("%b2x\t", TW28_ReadByte(page, addr));
  426   3            addr++;
-C51 COMPILER V9.60.0.0   COMMANDSHELL                                                      07/14/2021 15:23:06 PAGE 8   
+C51 COMPILER V9.60.0.0   COMMANDSHELL                                                      07/16/2021 11:15:07 PAGE 8   
 
  427   3            if((addr%16)==0)  printf("\n"); 
  428   3          } while( addr );
@@ -510,7 +510,7 @@ line level    source
  486   2          attrsel = WIN_BLINK;
  487   2          setval  = ON;
  488   2        } else if ( chose==PCT_StrToCommCode("disrecall") ) {
-C51 COMPILER V9.60.0.0   COMMANDSHELL                                                      07/14/2021 15:23:06 PAGE 9   
+C51 COMPILER V9.60.0.0   COMMANDSHELL                                                      07/16/2021 11:15:07 PAGE 9   
 
  489   2          attrsel = WIN_RECALL_EN;
  490   2          setval  = OFF;
@@ -574,7 +574,7 @@ line level    source
  548          {
  549   1        printf("===== Format : ch0=[%bx] ch1=[%bx] ch2=[%bx] ch3=[%bx] =====\n",  \ 
  550   1            PCT_DetectVideoFormat(0x00), \
-C51 COMPILER V9.60.0.0   COMMANDSHELL                                                      07/14/2021 15:23:06 PAGE 10  
+C51 COMPILER V9.60.0.0   COMMANDSHELL                                                      07/16/2021 11:15:07 PAGE 10  
 
  551   1            PCT_DetectVideoFormat(0x01), \
  552   1            PCT_DetectVideoFormat(0x02), \
@@ -638,7 +638,7 @@ line level    source
  610   1        data U8 addrx,addry;
  611   1        char *getStr;
  612   1        
-C51 COMPILER V9.60.0.0   COMMANDSHELL                                                      07/14/2021 15:23:06 PAGE 11  
+C51 COMPILER V9.60.0.0   COMMANDSHELL                                                      07/16/2021 11:15:07 PAGE 11  
 
  613   1        PCT_GetFirstStr(&getStr,&szParam);
  614   1        addrx=atoi(getStr);
@@ -702,7 +702,7 @@ line level    source
  671   1        SYSCHATTR[WINCH[1]]=SYSWINATTR[1];
  672   1        SYSCHATTR[WINCH[2]]=SYSWINATTR[2];
  673   1        SYSCHATTR[WINCH[3]]=SYSWINATTR[3];
-C51 COMPILER V9.60.0.0   COMMANDSHELL                                                      07/14/2021 15:23:06 PAGE 12  
+C51 COMPILER V9.60.0.0   COMMANDSHELL                                                      07/16/2021 11:15:07 PAGE 12  
 
  674   1      
  675   1        PCT_WinAttrCtrlY(0, WIN_HMIRROR, SYSCHATTR[0]&BIT0);  
@@ -766,7 +766,7 @@ line level    source
  733   1        // ------------- Control OSD ------------
  734   1        PCT_ClearOSDPageX(WRPHX_PAGE0);
  735   1        PCT_ShowModeIcon();
-C51 COMPILER V9.60.0.0   COMMANDSHELL                                                      07/14/2021 15:23:06 PAGE 13  
+C51 COMPILER V9.60.0.0   COMMANDSHELL                                                      07/16/2021 11:15:07 PAGE 13  
 
  736   1        PCT_OSD_ActionPthX(SYSWINATTR);
  737   1        PCT_OSDActionForHS();
@@ -830,7 +830,7 @@ line level    source
               void MoniHSCommVersion(void)
               {
                 RS_tx(VERSION[0]);
-C51 COMPILER V9.60.0.0   COMMANDSHELL                                                      07/14/2021 15:23:06 PAGE 14  
+C51 COMPILER V9.60.0.0   COMMANDSHELL                                                      07/16/2021 11:15:07 PAGE 14  
 
                 RS_tx(VERSION[1]);
               }
@@ -894,7 +894,7 @@ line level    source
  857   2          // ===== All Register Dump =======
  858   2          //printf("All Register Dump");
  859   2          MoniRegisterDump();
-C51 COMPILER V9.60.0.0   COMMANDSHELL                                                      07/14/2021 15:23:06 PAGE 15  
+C51 COMPILER V9.60.0.0   COMMANDSHELL                                                      07/16/2021 11:15:07 PAGE 15  
 
  860   2        } else if (commcode == PCT_StrToCommCode("vmix")) {
  861   2          // ===== Video Mix's Windows Type Select =======
@@ -958,7 +958,7 @@ line level    source
  919   2        } else if (commcode == PCT_StrToCommCode("ver")) {  // HiSharp has used
  920   2          PCT_SendACK();
  921   2          //printf("Command Shell for HiSharp Disable Scroll!");
-C51 COMPILER V9.60.0.0   COMMANDSHELL                                                      07/14/2021 15:23:06 PAGE 16  
+C51 COMPILER V9.60.0.0   COMMANDSHELL                                                      07/16/2021 11:15:07 PAGE 16  
 
  922   2          MoniHSCommVersion();
  923   2          #if (TW2837_DEBUG==ON)
